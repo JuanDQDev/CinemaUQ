@@ -47,7 +47,7 @@ public class Funcion {
             return this;
         }
 
-    }
+
     public Funcion build(){
         if(idFuncion==null){
             throw new IllegalStateException("El identificador es incorrecto");
@@ -65,7 +65,7 @@ public class Funcion {
             throw new IllegalStateException("hay un error en la asignacion de la pelicula");
         }
         return new Funcion(this);
-
+        }
     }
 
     public String getIdFuncion() {
