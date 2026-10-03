@@ -16,6 +16,7 @@ Juan Diego Quitián · Juan Carlos Polanía · Andrés David Santafé
 8. Casos de prueba
 9. Patrones creacionales
 10. Principios SOLID
+11. Diagrama de clases UML
 
 ---
 
@@ -66,6 +67,7 @@ Sus administradores necesitan gestionar cada apartado del sistema:
 | Facturas | Factura, ConsecutivoFactura | Consecutivo |
 | Reporte | Reporte y sus formatos | Tipo, formato |
 | Negocio | Cinema | NIT, nombre comercial, ubicación, correo |
+
 
 ## 4. Requisitos funcionales (RF)
 
@@ -244,3 +246,7 @@ Cada ficha incluye los seis elementos solicitados: problema, patrón, justificac
 | **L** · Sustitución de Liskov | Todo código que trabaje con un `Clonable<T>` funciona igual con una `Sala` o un `Asiento`: ambos cumplen el contrato de devolver una copia independiente de sí mismos. |
 | **I** · Segregación de interfaces | `Clonable<T>` tiene un único método, `clonar()`. Las clases que la implementan no quedan obligadas a métodos que no usan. |
 | **D** · Inversión de dependencias | El contrato del Prototype depende de la abstracción `Clonable<T>` y no de una clase concreta. En la siguiente entrega se extenderá a la capa de servicios: los controladores dependerán de interfaces de servicio y no de implementaciones. |
+
+## 11. Diagrama de clases UML
+
+![](/src/main/resources/images/UML.jpg)
