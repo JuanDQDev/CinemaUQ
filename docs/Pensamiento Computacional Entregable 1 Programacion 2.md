@@ -150,3 +150,8 @@ RF: Generar reportes
 | Deducción  | Contiene muchas validaciones  | Builder | Compra | Compra.Builder |
 | Deducción  | El mismo proceso que se puede copiar | Prototype | Sala | Clonable |
 
+# Diagrama de clases UML
+
+![](/src/main/resources/images/UML.jpg)
+
+
