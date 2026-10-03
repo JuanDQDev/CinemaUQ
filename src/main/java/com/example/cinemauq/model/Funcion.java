@@ -47,25 +47,24 @@ public class Funcion {
             return this;
         }
 
-    }
-    public Funcion build(){
-        if(idFuncion==null){
-            throw new IllegalStateException("El identificador es incorrecto");
+        public Funcion build(){
+            if(idFuncion==null){
+                throw new IllegalStateException("El identificador es incorrecto");
+            }
+            if(fechaHoraFuncion==null){
+                throw new IllegalStateException("Hay un error con la fehca de la funcion");
+            }
+            if(idioma==null){
+                throw new IllegalStateException("El idioma es incorrecto");
+            }
+            if(salaFuncion==null){
+                throw new IllegalStateException("La sala es incorrecta");
+            }
+            if(peliculaFuncion==null){
+                throw new IllegalStateException("hay un error en la asignacion de la pelicula");
+            }
+            return new Funcion(this);
         }
-        if(fechaHoraFuncion==null){
-            throw new IllegalStateException("Hay un error con la fehca de la funcion");
-        }
-        if(idioma==null){
-            throw new IllegalStateException("El idioma es incorrecto");
-        }
-        if(salaFuncion==null){
-            throw new IllegalStateException("La sala es incorrecta");
-        }
-        if(peliculaFuncion==null){
-            throw new IllegalStateException("hay un error en la asignacion de la pelicula");
-        }
-        return new Funcion(this);
-
     }
 
     public String getIdFuncion() {
