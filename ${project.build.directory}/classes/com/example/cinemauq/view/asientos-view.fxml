@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Paso 2: selección gráfica de asientos. Los botones de asiento se crean en AsientosController. -->
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.AsientosController">
+    <top>
+        <VBox spacing="4">
+            <padding><Insets bottom="14"/></padding>
+            <Label fx:id="lblPelicula" styleClass="titulo-vista"/>
+            <Label fx:id="lblFuncion" styleClass="subtitulo"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-limpio">
+            <VBox alignment="TOP_CENTER" spacing="10" styleClass="tarjeta">
+                <Region styleClass="pantalla" maxWidth="460" prefWidth="460"/>
+                <Label text="PANTALLA" styleClass="texto-pantalla"/>
+                <Region prefHeight="10"/>
+                <GridPane fx:id="gridAsientos" hgap="6" vgap="7" alignment="CENTER"/>
+                <Region prefHeight="10"/>
+                <HBox spacing="22" alignment="CENTER">
+                    <HBox spacing="6" alignment="CENTER_LEFT">
+                        <Region styleClass="muestra-libre"/>
+                        <Label text="Libre" styleClass="texto-secundario"/>
+                    </HBox>
+                    <HBox spacing="6" alignment="CENTER_LEFT">
+                        <Region styleClass="muestra-seleccionado"/>
+                        <Label text="Tu selección" styleClass="texto-secundario"/>
+                    </HBox>
+                    <HBox spacing="6" alignment="CENTER_LEFT">
+                        <Region styleClass="muestra-ocupado"/>
+                        <Label text="Ocupado" styleClass="texto-secundario"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <right>
+        <VBox spacing="10" prefWidth="300" minWidth="280" styleClass="tarjeta">
+            <BorderPane.margin><Insets left="20"/></BorderPane.margin>
+            <Label text="Tu selección" styleClass="titulo-seccion"/>
+            <Label fx:id="lblAsientos" wrapText="true" minHeight="-Infinity"/>
+            <Label fx:id="lblTipoEntrada" wrapText="true" styleClass="texto-secundario" minHeight="-Infinity"/>
+            <Separator/>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Subtotal entradas"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblSubtotal" styleClass="valor-total"/>
+            </HBox>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="btnContinuar" text="Continuar a confitería" onAction="#continuar"
+                    styleClass="boton-primario" maxWidth="Infinity"/>
+            <Button text="Volver a la cartelera" onAction="#volver"
+                    styleClass="boton-secundario" maxWidth="Infinity"/>
+        </VBox>
+    </right>
+</BorderPane>

@@ -14,11 +14,11 @@ public class LenteTresDDecorator extends EntradaDecorator{
 
     @Override
     public double calcularPrecioEntrada() {
-        return super.calcularPrecio() + costoAdicional;
+        return super.calcularPrecioEntrada() + costoAdicional;
     }
 
     @Override
     public String getDetalle() {
-        return super.getDetalle() + " + Lentes 3D agregados a la entrada";
+        return super.getDetalle() + " + lentes 3D";
     }
 }

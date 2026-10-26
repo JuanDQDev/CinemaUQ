@@ -11,7 +11,7 @@ public abstract class EntradaDecorator implements Entrada{
     }
 
     @Override
-    public double calcularPrecio(){
+    public double calcularPrecioEntrada(){
         return entrada.calcularPrecioEntrada();
     }
 

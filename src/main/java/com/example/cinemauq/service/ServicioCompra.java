@@ -47,13 +47,13 @@ public class ServicioCompra {
             revisados.add(asiento);
         }
 
-        int precioEntradas = crearEntrada(funcion).calcularPrecioEntrada() * asientos.size();
+        int precioEntradas = (int) Math.round(crearEntrada(funcion).calcularPrecioEntrada()) * asientos.size();
         int total = precioEntradas;
         for (ElementoProducto producto : productos) {
             if (producto == null) {
                 throw new CompraInvalidaException("Producto inválido");
             }
-            total = total + producto.calcularPrecio();
+            total = total + (int) Math.round(producto.calcularPrecio());
         }
         return total;
     }

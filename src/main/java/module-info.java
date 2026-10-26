@@ -1,10 +1,17 @@
 module com.example.cinemauq {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.desktop;
 
     opens com.example.cinemauq to javafx.fxml;
+    opens com.example.cinemauq.controller to javafx.fxml;
+
+    opens com.example.cinemauq.model;
+    opens com.example.cinemauq.service;
+
     exports com.example.cinemauq;
+    exports com.example.cinemauq.controller;
     exports com.example.cinemauq.model;
-    opens com.example.cinemauq.model to javafx.fxml;
+    exports com.example.cinemauq.service;
+    exports com.example.cinemauq.exception;
 }
+

@@ -1,5 +1,11 @@
 package com.example.cinemauq.model;
 
+import com.example.cinemauq.exception.SaldoInsuficienteException;
+import com.example.cinemauq.exception.TarjetaInactivaException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TarjetaVirtual {
     private final String numero;
     private boolean activa = true;
@@ -85,7 +91,7 @@ public class TarjetaVirtual {
             throw new IllegalArgumentException("El reembolso supera el saldo maximo permitido");
         }
         saldo = saldo + monto;
-        movimientos.add(new MovimientoTarjeta(TipoMovimiento.REEMBOLSO, monto, saldo, referenciaCompra))
+        movimientos.add(new MovimientoTarjeta(TipoMovimiento.REEMBOLSO, monto, saldo, referenciaCompra));
     }
 
     public String getNumero() { return numero; }

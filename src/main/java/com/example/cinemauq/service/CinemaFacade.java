@@ -14,6 +14,7 @@ public class CinemaFacade {
     private final List<ElementoProducto> confiteria = new ArrayList<>();
     private final List<Compra> compras = new ArrayList<>();
     private final ServicioCompra servicioCompra = new ServicioCompra();
+    private Administrador administrador;
 
     public CinemaFacade(Cliente cliente) {
         if (cliente == null) throw new IllegalArgumentException("Se requiere un cliente");
@@ -24,6 +25,7 @@ public class CinemaFacade {
         Cliente cliente = new Cliente("1001", "Cliente de demostración", 22);
         CinemaFacade fachada = new CinemaFacade(cliente);
         Administrador admin = new Administrador("A01", "Administración CinemaUQ", "admin@cinemauq.demo");
+        fachada.administrador = admin;
         cliente.getTarjeta().recargar(admin, 150000);
 
         Pelicula p1 = new Pelicula("P01", "Titanic", "Drama romántico que narra la historia de amor entre Jack y Rose, dos jóvenes de distintas clases sociales que se conocen a bordo del trágico transatlántico en 1912.", RestriccionPelicula.DOCE);
@@ -53,12 +55,12 @@ public class CinemaFacade {
         List<ElementoProducto> clasico = new ArrayList<>();
         clasico.add(palomitas);
         clasico.add(gaseosa);
-        fachada.confiteria.add(new Combo("Combo clásico (-10 %)", 10, clasico));
+        fachada.confiteria.add(new Combo("Combo clásico (-10 %)", 0.10, clasico));
         List<ElementoProducto> familiar = new ArrayList<>();
         familiar.add(palomitas);
         familiar.add(gaseosa);
         familiar.add(nachos);
-        fachada.confiteria.add(new Combo("Combo familiar (-15 %)", 15, familiar));
+        fachada.confiteria.add(new Combo("Combo familiar (-15 %)", 0.15, familiar));
         return fachada;
     }
 
@@ -72,10 +74,21 @@ public class CinemaFacade {
         List<Funcion> resultado = new ArrayList<>();
         if (pelicula != null) for (Funcion funcion : funciones) {
             if (funcion.getPeliculaFuncion().getCodigo().equals(pelicula.getCodigo())){
-                resultado.add(funcion)
-            };
+                resultado.add(funcion);
+            }
         }
         return resultado;
+    }
+
+    /**
+     * Recarga la tarjeta del cliente. La recarga queda autorizada por el
+     * administrador del cine (RN-005) y se registra como movimiento (RN-006).
+     */
+    public void recargarTarjeta(int monto) {
+        if (administrador == null) {
+            throw new IllegalStateException("No hay un administrador que autorice la recarga");
+        }
+        cliente.getTarjeta().recargar(administrador, monto);
     }
 
     public Entrada getTipoEntrada(Funcion funcion) { return servicioCompra.crearEntrada(funcion); }

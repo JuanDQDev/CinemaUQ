@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Paso 4: resumen y pago con la tarjeta virtual -->
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cinemauq.controller.PagoController"
+      spacing="20">
+    <VBox spacing="6" HBox.hgrow="ALWAYS">
+        <Label text="Resumen de la compra" styleClass="titulo-vista"/>
+        <Label text="Revisa los datos antes de pagar." styleClass="subtitulo"/>
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-limpio">
+            <VBox fx:id="panelResumen" spacing="10" styleClass="tarjeta"/>
+        </ScrollPane>
+    </VBox>
+
+    <VBox spacing="12" prefWidth="350" minWidth="330">
+        <VBox spacing="8" styleClass="tarjeta-virtual">
+            <Label text="TARJETA VIRTUAL CINEMAUQ"/>
+            <Label fx:id="lblNumeroTarjeta" styleClass="tarjeta-virtual-numero"/>
+            <Region prefHeight="8"/>
+            <Label text="Saldo disponible"/>
+            <Label fx:id="lblSaldoActual" styleClass="tarjeta-virtual-saldo"/>
+        </VBox>
+
+        <VBox spacing="10" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Estado de la tarjeta"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblEstado"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Total a pagar"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblTotal" styleClass="valor-total"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Saldo después de la compra"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblSaldoDespues" styleClass="titulo-seccion"/>
+            </HBox>
+            <Separator/>
+            <Label fx:id="lblAviso" wrapText="true" minHeight="-Infinity"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="btnPagar" text="Pagar con tarjeta virtual" onAction="#pagar"
+                    styleClass="boton-primario" maxWidth="Infinity"/>
+            <Button text="Volver a la confitería" onAction="#volver"
+                    styleClass="boton-secundario" maxWidth="Infinity"/>
+        </VBox>
+    </VBox>
+</HBox>

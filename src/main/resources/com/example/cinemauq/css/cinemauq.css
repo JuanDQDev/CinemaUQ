@@ -1,0 +1,434 @@
+/* ===== CinemaUQ · hoja de estilos ===== */
+
+.root {
+    -fx-font-size: 13px;
+    -color-fondo: #f3f4f8;
+    -color-oscuro: #151a2b;
+    -color-acento: #c8102e;
+    -color-acento-hover: #a50d26;
+    -color-texto: #1d2233;
+    -color-suave: #6b7185;
+    -color-borde: #e1e4ec;
+    -color-exito: #1b8a5a;
+}
+
+.raiz {
+    -fx-background-color: -color-fondo;
+}
+
+/* ---------- Barra superior ---------- */
+.barra-superior {
+    -fx-background-color: -color-oscuro;
+    -fx-padding: 12 24 12 24;
+}
+
+.logo {
+    -fx-text-fill: white;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+}
+
+.logo-acento {
+    -fx-text-fill: white;
+    -fx-background-color: -color-acento;
+    -fx-background-radius: 4;
+    -fx-padding: 0 5 0 5;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.nav {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c4c9d8;
+    -fx-font-size: 14px;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.nav:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #262d45;
+}
+
+.nav-activo {
+    -fx-text-fill: white;
+    -fx-background-color: #2d3550;
+}
+
+.cliente {
+    -fx-text-fill: #c4c9d8;
+    -fx-font-size: 12px;
+}
+
+.saldo {
+    -fx-text-fill: #ffd166;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Indicador de pasos ---------- */
+.barra-pasos {
+    -fx-background-color: white;
+    -fx-padding: 10 24 10 24;
+    -fx-border-color: transparent transparent -color-borde transparent;
+}
+
+.paso {
+    -fx-text-fill: #9aa0b3;
+    -fx-font-size: 13px;
+}
+
+.paso-activo {
+    -fx-text-fill: -color-acento;
+    -fx-font-weight: bold;
+}
+
+.paso-hecho {
+    -fx-text-fill: -color-exito;
+}
+
+.separador-paso {
+    -fx-text-fill: #c4c9d8;
+}
+
+/* ---------- Textos ---------- */
+.titulo-vista {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.subtitulo {
+    -fx-text-fill: -color-suave;
+    -fx-font-size: 13px;
+}
+
+.titulo-seccion {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.titulo-detalle {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.texto-secundario {
+    -fx-text-fill: -color-suave;
+}
+
+.texto-precio {
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 13px;
+}
+
+.valor-total {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.valor-grande {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.aviso-error {
+    -fx-text-fill: -color-acento;
+    -fx-font-weight: bold;
+}
+
+.aviso-ok {
+    -fx-text-fill: -color-exito;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Tarjetas (contenedores blancos) ---------- */
+.tarjeta {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 10;
+    -fx-padding: 18;
+}
+
+.tarjeta-pelicula {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-padding: 0 0 12 0;
+    -fx-cursor: hand;
+}
+
+.tarjeta-pelicula:hover {
+    -fx-border-color: #e9a3ae;
+}
+
+.tarjeta-pelicula-seleccionada,
+.tarjeta-pelicula-seleccionada:hover {
+    -fx-border-color: -color-acento;
+}
+
+.poster {
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 14;
+}
+
+.poster-titulo {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.nombre-pelicula {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.etiqueta-clasificacion {
+    -fx-background-color: #fde8eb;
+    -fx-text-fill: -color-acento;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+}
+
+/* ---------- Botones ---------- */
+.boton-primario {
+    -fx-background-color: -color-acento;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 6;
+    -fx-padding: 10 18 10 18;
+    -fx-cursor: hand;
+}
+
+.boton-primario:hover {
+    -fx-background-color: -color-acento-hover;
+}
+
+.boton-secundario {
+    -fx-background-color: white;
+    -fx-text-fill: -color-texto;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #f0f2f7;
+}
+
+.boton-cantidad {
+    -fx-background-color: #eef0f5;
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-background-radius: 16;
+    -fx-cursor: hand;
+}
+
+.boton-cantidad:hover {
+    -fx-background-color: #dfe3ec;
+}
+
+.cantidad {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-min-width: 28;
+    -fx-alignment: center;
+}
+
+/* ---------- Listas y tablas ---------- */
+.lista-funciones {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.lista-funciones .list-cell {
+    -fx-padding: 10 8 10 8;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -color-borde transparent;
+}
+
+.lista-funciones .list-cell:filled:selected {
+    -fx-background-color: #fde8eb;
+    -fx-text-fill: -color-texto;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: -color-borde;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f6f7fa;
+}
+
+.scroll-limpio,
+.scroll-limpio > .viewport {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* ---------- Sala y asientos ---------- */
+.pantalla {
+    -fx-background-color: linear-gradient(to bottom, #9aa3ba, #e9ecf3);
+    -fx-background-radius: 50 50 0 0;
+    -fx-min-height: 14;
+    -fx-max-height: 14;
+}
+
+.texto-pantalla {
+    -fx-text-fill: #9aa0b3;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.asiento {
+    -fx-min-width: 36;
+    -fx-min-height: 32;
+    -fx-pref-width: 36;
+    -fx-pref-height: 32;
+    -fx-background-color: #dfe3ec;
+    -fx-background-radius: 8 8 3 3;
+    -fx-text-fill: #3c4257;
+    -fx-font-size: 11px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.asiento:hover {
+    -fx-background-color: #c6cddd;
+}
+
+.asiento:selected,
+.asiento:selected:hover {
+    -fx-background-color: -color-acento;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.asiento-ocupado,
+.asiento-ocupado:disabled {
+    -fx-background-color: #4b5166;
+    -fx-text-fill: #8a90a3;
+    -fx-opacity: 1;
+}
+
+.etiqueta-fila {
+    -fx-text-fill: #9aa0b3;
+    -fx-font-weight: bold;
+    -fx-min-width: 18;
+    -fx-alignment: center;
+}
+
+.muestra-libre,
+.muestra-seleccionado,
+.muestra-ocupado {
+    -fx-min-width: 18;
+    -fx-min-height: 16;
+    -fx-max-width: 18;
+    -fx-max-height: 16;
+    -fx-background-radius: 5 5 2 2;
+}
+
+.muestra-libre { -fx-background-color: #dfe3ec; }
+.muestra-seleccionado { -fx-background-color: -color-acento; }
+.muestra-ocupado { -fx-background-color: #4b5166; }
+
+/* ---------- Confitería ---------- */
+.fila-producto {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 10;
+    -fx-padding: 14 16 14 16;
+}
+
+.icono-producto {
+    -fx-background-color: #fff3d6;
+    -fx-background-radius: 22;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-alignment: center;
+    -fx-text-fill: #b7791f;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+.icono-combo {
+    -fx-background-color: #fde8eb;
+    -fx-text-fill: -color-acento;
+}
+
+.etiqueta-descuento {
+    -fx-background-color: #e5f5ed;
+    -fx-text-fill: -color-exito;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-background-radius: 4;
+    -fx-padding: 1 6 1 6;
+}
+
+/* ---------- Tarjeta virtual ---------- */
+.tarjeta-virtual {
+    -fx-background-color: linear-gradient(to bottom right, #1f2742, #3a1f3d);
+    -fx-background-radius: 14;
+    -fx-padding: 20;
+}
+
+.tarjeta-virtual .label {
+    -fx-text-fill: white;
+}
+
+.tarjeta-virtual-numero {
+    -fx-font-size: 16px;
+    -fx-font-family: "Monospaced";
+}
+
+.tarjeta-virtual-saldo {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.estado-activa {
+    -fx-background-color: #e5f5ed;
+    -fx-text-fill: -color-exito;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+}
+
+.estado-inactiva {
+    -fx-background-color: #fde8eb;
+    -fx-text-fill: -color-acento;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+}
+
+.monto-positivo { -fx-text-fill: -color-exito; -fx-font-weight: bold; }
+.monto-negativo { -fx-text-fill: -color-acento; -fx-font-weight: bold; }
+
+.text-field {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 8;
+}

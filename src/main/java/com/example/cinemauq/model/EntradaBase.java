@@ -17,6 +17,6 @@ public class EntradaBase implements Entrada{
 
     @Override
     public String getDetalle() {
-        return "Entrada Estandar: ";
+        return "Entrada estándar";
     }
 }

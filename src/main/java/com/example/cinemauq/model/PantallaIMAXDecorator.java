@@ -13,11 +13,11 @@ public class PantallaIMAXDecorator extends EntradaDecorator{
 
     @Override
     public double calcularPrecioEntrada() {
-        return super.calcularPrecio() + costoAdicional;
+        return super.calcularPrecioEntrada() + costoAdicional;
     }
 
     @Override
     public String getDetalle() {
-        return super.getDetalle() + " + pantalla IMAX ";
+        return super.getDetalle() + " + pantalla IMAX";
     }
 }
