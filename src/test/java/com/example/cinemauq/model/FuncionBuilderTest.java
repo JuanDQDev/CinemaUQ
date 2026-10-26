@@ -17,7 +17,7 @@ class FuncionBuilderTest {
                 .conFechaHora(LocalDateTime.of(2026, 10, 9, 19, 0))
                 .conIdioma("Español")
                 .conSala(new Sala(1, "2D", 8, 12))
-                .conPelicula(new Pelicula());
+                .conPelicula(new Pelicula("P01", "Pelicula de prueba", "Descripcion", RestriccionPelicula.SIETE));
     }
 
     @Test

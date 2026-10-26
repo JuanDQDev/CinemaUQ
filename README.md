@@ -14,17 +14,30 @@ Sistema de gestión de cine en **Java + JavaFX** (Maven), proyecto final de Prog
 | Patrón Builder | [`docs/Patron Builder.md`](docs/Patron%20Builder.md) · `Funcion.Builder` |
 | Patrón Prototype | [`docs/Patron Prototype.md`](docs/Patron%20Prototype.md) · `Clonable`, `Sala`, `Asiento` |
 
+## Entrega 2
+
+| Entregable | Ubicación |
+|---|---|
+| Interfaz JavaFX con MVC (cartelera, asientos, confitería, compra y tarjeta virtual) | [`docs/Interfaz JavaFX MVC.md`](docs/Interfaz%20JavaFX%20MVC.md) · paquete `controller` y `resources/.../view` |
+| Patrones estructurales | Composite (`ElementoProducto`, `Producto`, `Combo`), Decorator (`Entrada`, `EntradaDecorator`…), Adapter (`MedioPago`, `AdaptadorTarjetaVirtual`), Facade (`CinemaFacade`) |
+| Excepciones propias del dominio | paquete `exception` |
+
 ## Estructura
 
 ```
 src/main/java/com/example/cinemauq/
-├── model/      clases del dominio y patrones creacionales
-└── ...         aplicación JavaFX (HelloApplication, Launcher)
-src/test/java/com/example/cinemauq/model/
-├── ConsecutivoFacturaTest   (Singleton)
-├── FuncionBuilderTest       (Builder)
-└── SalaPrototypeTest        (Prototype)
-docs/           análisis, diagrama y fichas de patrones
+├── CinemaUQApplication, Launcher   arranque de JavaFX
+├── controller/   controladores de las vistas (MVC)
+├── model/        clases del dominio y patrones creacionales/estructurales
+├── service/      ServicioCompra, CinemaFacade, MedioPago y su adaptador
+└── exception/    excepciones del dominio
+src/main/resources/com/example/cinemauq/
+├── view/         vistas FXML
+└── css/          estilos
+src/test/java/com/example/cinemauq/
+├── model/        Singleton, Builder, Prototype y carrito
+└── service/      compra con tarjeta virtual
+docs/             análisis, diagramas, fichas de patrones e interfaz
 ```
 
 ## Cómo ejecutar

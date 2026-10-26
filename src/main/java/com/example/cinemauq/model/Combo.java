@@ -1,6 +1,5 @@
 package com.example.cinemauq.model;
 
-import javax.swing.text.AbstractDocument;
 import java.util.List;
 
 public class Combo implements ElementoProducto {
@@ -27,7 +26,7 @@ public class Combo implements ElementoProducto {
     }
 
 
-    private boolean contieneCombo(ElementoProducto producto, Conmbo buscado){
+    private boolean contieneCombo(ElementoProducto producto, Combo buscado){
         if (producto == buscado) return true;
         if (producto instanceof Combo){
             Combo combo = (Combo) producto;
