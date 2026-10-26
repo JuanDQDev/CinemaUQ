@@ -67,6 +67,12 @@ public class Funcion {
         }
     }
 
+    @Override
+    public String toString() {
+        return fechaHoraFuncion.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+                + " - Sala " + salaFuncion.getNumero() + " (" + salaFuncion.getFormato() + ") - " + idioma;
+    }
+
     public String getIdFuncion() {
         return idFuncion;
     }

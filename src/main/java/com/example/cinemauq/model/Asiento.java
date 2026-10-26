@@ -1,5 +1,7 @@
 package com.example.cinemauq.model;
 
+import com.example.cinemauq.exception.AsientoOcupadoException;
+
 /**
  * Asiento de una sala, identificado por fila y numero (por ejemplo "D4").
  * Es parte del Prototype: cada asiento sabe clonarse para que la copia de la
@@ -25,7 +27,7 @@ public class Asiento implements Clonable<Asiento> {
      */
     public void ocupar() {
         if (ocupado) {
-            throw new IllegalStateException("El asiento " + getCodigo() + " ya esta ocupado");
+            throw new AsientoOcupadoException("El asiento " + getCodigo() + " ya esta ocupado");
         }
         ocupado = true;
     }

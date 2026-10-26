@@ -1,11 +1,14 @@
 package com.example.cinemauq.model;
 
 public class LenteTresDDecorator extends EntradaDecorator{
-    private double costoAdicional;
+    private final double costoAdicional;
 
 
     public LenteTresDDecorator(Entrada entrada, double costoAdicional) {
         super(entrada);
+        if(!Double.isFinite(costoAdicional) || costoAdicional < 0){
+            throw new IllegalArgumentException("El costo adicional debe de ser valido.");
+        }
         this.costoAdicional = costoAdicional;
     }
 
