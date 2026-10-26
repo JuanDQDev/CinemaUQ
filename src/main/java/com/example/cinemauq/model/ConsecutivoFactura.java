@@ -2,7 +2,7 @@ package com.example.cinemauq.model;
 
 public class ConsecutivoFactura {
 
-    private static ConsecutivoFactura instancia;
+    private static final ConsecutivoFactura instancia = new ConsecutivoFactura();
     private int id;
 
     private ConsecutivoFactura() {
@@ -10,10 +10,6 @@ public class ConsecutivoFactura {
     }
 
     public static ConsecutivoFactura getInstance() {
-        if (instancia == null) {
-            instancia = new ConsecutivoFactura();
-        }
-
         return instancia;
     }
 
