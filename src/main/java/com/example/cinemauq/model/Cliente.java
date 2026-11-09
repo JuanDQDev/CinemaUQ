@@ -4,6 +4,7 @@ public class Cliente {
     private String id;
     private String nombre;
     private int edad;
+    private TarjetaVirtual tarjeta;
 
     public Cliente(String id, String nombre, int edad) {
         if (id == null || id.isBlank() || nombre == null || nombre.isBlank() || edad < 0) {
