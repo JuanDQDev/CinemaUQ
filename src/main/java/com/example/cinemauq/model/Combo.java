@@ -1,6 +1,5 @@
 package com.example.cinemauq.model;
 
-import javax.swing.text.AbstractDocument;
 import java.util.List;
 
 public class Combo implements ElementoProducto {

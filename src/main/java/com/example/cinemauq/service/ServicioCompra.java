@@ -47,13 +47,13 @@ public class ServicioCompra {
             revisados.add(asiento);
         }
 
-        int precioEntradas = crearEntrada(funcion).calcularPrecioEntrada() * asientos.size();
+        int precioEntradas = (int) Math.round(crearEntrada(funcion).calcularPrecioEntrada()) * asientos.size();
         int total = precioEntradas;
         for (ElementoProducto producto : productos) {
             if (producto == null) {
                 throw new CompraInvalidaException("Producto inválido");
             }
-            total = total + producto.calcularPrecio();
+            total = total + (int) Math.round(producto.calcularPrecio());
         }
         return total;
     }
@@ -125,6 +125,49 @@ public class ServicioCompra {
             medioPago.devolver(total, factura);
             throw error;
         }
+        //Acumular puntos
+        cliente.getMontoPuntos().acumularPuntos(total);
         return new Compra(factura, cliente, funcion, seleccionados, extras, total);
+    }
+
+    public double procesarReembolso(Compra compra, LocalDateTime horaActual) {
+        // 1. Calcular las horas restantes entre el momento actual y la función
+        long horasRestantes = java.time.Duration.between(horaActual, compra.getFuncion().getFechaHoraFuncion()).toHours();
+
+        // 2. Seleccionar la estrategia adecuada según el tiempo
+        IPoliticaReembolso politica;
+        if (horasRestantes > 24) {
+            politica = new ReembolsoCien();
+        } else if (horasRestantes >= 2) {
+            politica = new ReembolsoOchenta();
+        } else {
+            politica = new SinReembolso();
+        }
+
+        // 3. Ejecutar el cálculo delegando en la estrategia
+        return politica.calcularReembolso(compra.getTotal());
+    }
+    public void cancelarCompra(Compra compra) {
+        if (compra == null) {
+            throw new CompraInvalidaException("La compra no puede ser nula");
+        }
+
+        LocalDateTime horaActual = LocalDateTime.now();
+        if (!horaActual.isBefore(compra.getFuncion().getFechaHoraFuncion())) {
+            throw new CompraInvalidaException("No se puede cancelar una función que ya comenzó o finalizó.");
+        }
+
+        double calculoReembolso = procesarReembolso(compra, horaActual);
+        int montoAReembolsar = (int) Math.round(calculoReembolso);
+
+        // Si hay dinero a devolver, lo enviamos a la tarjeta virtual del cliente
+        if (montoAReembolsar > 0) {
+            compra.getCliente().getTarjeta().reembolsar(montoAReembolsar, compra.getFactura());
+        }
+
+        // Liberamos los asientos en la sala de cine
+        for (String codigoAsiento : compra.getAsientos()) {
+            compra.getFuncion().getSalaFuncion().buscarAsiento(codigoAsiento).liberar();
+        }
     }
 }

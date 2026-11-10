@@ -65,6 +65,8 @@ public class TarjetaVirtual {
         saldo = saldo + monto;
         movimientos.add(new MovimientoTarjeta(TipoMovimiento.RECARGA, monto,
                 saldo, "Recarga autorizada por: " + administrador.getNombre()));
+
+
     }
 
     public void reembolsar(int monto, String referenciaCompra){
@@ -92,7 +94,8 @@ public class TarjetaVirtual {
         }
         saldo = saldo + monto;
         movimientos.add(new MovimientoTarjeta(TipoMovimiento.REEMBOLSO, monto, saldo, referenciaCompra));
-    }
+        }
+
 
     public String getNumero() { return numero; }
     public boolean isActiva() { return activa; }

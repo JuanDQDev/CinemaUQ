@@ -65,7 +65,7 @@ class SalaPrototypeTest {
                 .conFechaHora(LocalDateTime.of(2026, 10, 9, 19, 0))
                 .conIdioma("Español")
                 .conSala(plantilla.clonar())
-                .conPelicula(new Pelicula())
+                .conPelicula(new Pelicula("P01", "Pelicula de prueba", "Descripcion", RestriccionPelicula.SIETE))
                 .build();
 
         funcion.getSalaFuncion().ocuparAsiento("D4");

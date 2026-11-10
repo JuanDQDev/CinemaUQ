@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Ventana principal: barra superior, indicador de pasos y área central de vistas -->
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.PrincipalController"
+            styleClass="raiz">
+    <top>
+        <VBox>
+            <HBox styleClass="barra-superior" alignment="CENTER_LEFT" spacing="6">
+                <Label text="Cinema" styleClass="logo"/>
+                <Label text="UQ" styleClass="logo-acento"/>
+                <Region prefWidth="28"/>
+                <Button fx:id="btnCartelera" text="Cartelera" onAction="#irACartelera" styleClass="nav"/>
+                <Button fx:id="btnTarjeta" text="Mi tarjeta" onAction="#irATarjeta" styleClass="nav"/>
+                <Button fx:id="btnCompras" text="Mis compras" onAction="#irACompras" styleClass="nav"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="2">
+                    <Label fx:id="lblCliente" styleClass="cliente"/>
+                    <Label fx:id="lblSaldo" styleClass="saldo"/>
+                </VBox>
+            </HBox>
+            <HBox fx:id="barraPasos" styleClass="barra-pasos" alignment="CENTER_LEFT" spacing="12">
+                <Label fx:id="paso1" text="1  Película y función" styleClass="paso"/>
+                <Label text="›" styleClass="separador-paso"/>
+                <Label fx:id="paso2" text="2  Asientos" styleClass="paso"/>
+                <Label text="›" styleClass="separador-paso"/>
+                <Label fx:id="paso3" text="3  Confitería" styleClass="paso"/>
+                <Label text="›" styleClass="separador-paso"/>
+                <Label fx:id="paso4" text="4  Pago" styleClass="paso"/>
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <StackPane fx:id="contenedor">
+            <padding>
+                <Insets top="20" right="24" bottom="20" left="24"/>
+            </padding>
+        </StackPane>
+    </center>
+</BorderPane>
