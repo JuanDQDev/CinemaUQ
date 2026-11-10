@@ -5,6 +5,7 @@ public class Cliente {
     private final String nombre;
     private final int edad;
     private final TarjetaVirtual tarjeta;
+    private final MontoPuntos montoPuntos;
 
     public Cliente(String id, String nombre, int edad) {
         if (id == null || id.isBlank() || nombre == null || nombre.isBlank() || edad < 0) {
@@ -14,11 +15,14 @@ public class Cliente {
         this.nombre = nombre;
         this.edad = edad;
         this.tarjeta = new TarjetaVirtual("TV-" + id);
+        this.montoPuntos= new MontoPuntos();
     }
 
     public String getId() { return id; }
     public String getNombre() { return nombre; }
     public int getEdad() { return edad; }
     public TarjetaVirtual getTarjeta() { return tarjeta; }
-
+    public MontoPuntos getMontoPuntos() {
+        return montoPuntos;
+    }
 }
