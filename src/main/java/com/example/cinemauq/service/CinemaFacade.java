@@ -24,7 +24,7 @@ public class CinemaFacade {
     public static CinemaFacade crearDemostracion() {
         Cliente cliente = new Cliente("1001", "Cliente de demostración", 22);
         CinemaFacade fachada = new CinemaFacade(cliente);
-        Administrador admin = new Administrador("A01", "Administración CinemaUQ", "admin@cinemauq.demo");
+        Administrador admin = new Administrador("A01", "Administración CinemaUQ", "admin@cinemauq.demo", "Admin123");
         fachada.administrador = admin;
         cliente.getTarjeta().recargar(admin, 150000);
 
@@ -84,9 +84,12 @@ public class CinemaFacade {
      * Recarga la tarjeta del cliente. La recarga queda autorizada por el
      * administrador del cine (RN-005) y se registra como movimiento (RN-006).
      */
-    public void recargarTarjeta(int monto) {
-        if (administrador == null) {
-            throw new IllegalStateException("No hay un administrador que autorice la recarga");
+    public void recargarTarjeta(int monto, String identificacion, String clave) {
+        if (administrador == null || !administrador.validarCredenciales(identificacion, clave)) {
+            throw new IllegalStateException("Identificación o clave de administrador incorrectas");
+        }
+        if(monto <= 0){
+            throw new IllegalStateException("La recarga debe ser mayor que cero");
         }
         cliente.getTarjeta().recargar(administrador, monto);
     }
