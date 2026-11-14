@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- Historial de compras del cliente -->
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cinemauq.controller.ComprasController"
       spacing="14">
@@ -21,7 +20,7 @@
         <Button text="Comprar más entradas" onAction="#irACartelera" styleClass="boton-primario"/>
     </HBox>
     <VBox styleClass="tarjeta" VBox.vgrow="ALWAYS">
-        <TableView fx:id="tablaCompras" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaCompras" VBox.vgrow="ALWAYS" prefHeight="360" minHeight="300">
             <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
             <columns>
                 <TableColumn fx:id="colFactura" text="Factura" prefWidth="110"/>

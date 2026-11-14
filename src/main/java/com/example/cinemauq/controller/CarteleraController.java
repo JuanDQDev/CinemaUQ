@@ -1,36 +1,21 @@
 package com.example.cinemauq.controller;
 
-import com.example.cinemauq.model.Entrada;
-import com.example.cinemauq.model.Funcion;
-import com.example.cinemauq.model.Pelicula;
-import com.example.cinemauq.model.RestriccionPelicula;
+import com.example.cinemauq.model.*;
 import com.example.cinemauq.service.CinemaFacade;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.AccessibleRole;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-
+import javafx.scene.layout.*;
 import java.util.List;
 
-/**
- * Paso 1 · Cartelera: muestra las películas, sus funciones y el precio de la
- * entrada según el formato de la sala (calculado por el Decorator de Entrada).
- */
 public class CarteleraController implements Controlador {
-
-    /** Colores de los pósters generados (no hay imágenes de las películas). */
-    private static final String[][] COLORES_POSTER = {
-            {"#1d3557", "#457b9d"}, {"#6a040f", "#d00000"}, {"#3c096c", "#7b2cbf"},
-            {"#1b4332", "#40916c"}, {"#7f4f24", "#b08968"}
-    };
-
     @FXML private FlowPane panelPeliculas;
+    @FXML private VBox panelDetalle;
     @FXML private Label lblTitulo;
     @FXML private Label lblClasificacion;
     @FXML private Label lblDescripcion;
@@ -54,118 +39,147 @@ public class CarteleraController implements Controlador {
                 super.updateItem(funcion, vacia);
                 setWrapText(true);
                 setPrefWidth(0);
-                if (vacia || funcion == null) {
-                    setText(null);
-                } else {
-                    setText(Formato.funcion(funcion) + "\n"
-                            + funcion.getSalaFuncion().contarDisponibles() + " de "
-                            + funcion.getSalaFuncion().getCapacidad() + " asientos libres");
-                }
+                setText(vacia || funcion == null ? null
+                        : Formato.funcion(funcion) + "\n"
+                        + funcion.getSalaFuncion().contarDisponibles() + " asientos disponibles");
             }
         });
         listaFunciones.getSelectionModel().selectedItemProperty()
                 .addListener((obs, anterior, funcion) -> mostrarPrecio(funcion));
         listaFunciones.setOnMouseClicked(evento -> {
-            if (evento.getButton() == MouseButton.PRIMARY && evento.getClickCount() == 2) {
+            if (evento.getButton() != MouseButton.PRIMARY || evento.getClickCount() != 2) return;
+            Node objetivo = (Node) evento.getTarget();
+            while (objetivo != null && !(objetivo instanceof ListCell)) {
+                objetivo = objetivo.getParent();
+            }
+            if (objetivo instanceof ListCell && !((ListCell<?>) objetivo).isEmpty()) {
                 elegirAsientos();
             }
         });
+        listaFunciones.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.ENTER) elegirAsientos();
+        });
 
-        List<Pelicula> cartelera = fachada.getCartelera();
+        List<Pelicula> peliculas = fachada.getCartelera();
         VBox primera = null;
         VBox previa = null;
-        for (int i = 0; i < cartelera.size(); i++) {
-            Pelicula pelicula = cartelera.get(i);
-            VBox tarjeta = crearTarjeta(pelicula, COLORES_POSTER[i % COLORES_POSTER.length]);
+        for (Pelicula pelicula : peliculas) {
+            VBox tarjeta = crearTarjeta(pelicula);
             panelPeliculas.getChildren().add(tarjeta);
             if (primera == null) primera = tarjeta;
-            if (contexto.getCarrito().getPelicula() == pelicula) previa = tarjeta;
+            if (pelicula == contexto.getCarrito().getPelicula()) previa = tarjeta;
         }
-
+        panelPeliculas.widthProperty().addListener((obs, anterior, ancho) -> {
+            double anchoTarjeta = Math.max(160, Math.min(260, (ancho.doubleValue() - 80) / 3));
+            for (Node nodo : panelPeliculas.getChildren()) {
+                ((VBox) nodo).setPrefWidth(anchoTarjeta);
+                ((VBox) nodo).setMaxWidth(anchoTarjeta);
+            }
+        });
         if (previa != null) {
             seleccionar(contexto.getCarrito().getPelicula(), previa);
             listaFunciones.getSelectionModel().select(contexto.getCarrito().getFuncion());
         } else if (primera != null) {
-            seleccionar(cartelera.get(0), primera);
+            seleccionar(peliculas.get(0), primera);
         } else {
-            lblTitulo.setText("No hay películas en cartelera");
+            lblTitulo.setText("Próximamente, nuevas historias");
             btnElegirAsientos.setDisable(true);
         }
     }
 
-    private VBox crearTarjeta(Pelicula pelicula, String[] colores) {
-        Label tituloPoster = new Label(pelicula.getNombrePelicula());
-        tituloPoster.getStyleClass().add("poster-titulo");
-        tituloPoster.setWrapText(true);
-        StackPane poster = new StackPane(tituloPoster);
+    private VBox crearTarjeta(Pelicula pelicula) {
+        ImageView imagen = new ImageView(Visuales.poster(pelicula));
+        imagen.setPreserveRatio(true);
+        imagen.setSmooth(true);
+        StackPane poster = new StackPane(imagen);
         poster.getStyleClass().add("poster");
-        poster.setStyle("-fx-background-color: linear-gradient(to bottom right, "
-                + colores[0] + ", " + colores[1] + ");");
-        poster.setPrefSize(190, 230);
-        poster.setAlignment(Pos.BOTTOM_LEFT);
+        poster.setMinWidth(0);
+        poster.setMinHeight(Region.USE_PREF_SIZE);
+        poster.setMaxHeight(Region.USE_PREF_SIZE);
+        imagen.fitWidthProperty().bind(poster.widthProperty());
+        imagen.fitHeightProperty().bind(poster.heightProperty());
+        Visuales.redondear(poster, 20);
 
         Label nombre = new Label(pelicula.getNombrePelicula());
+        nombre.setWrapText(true);
+        nombre.setMinHeight(44);
         nombre.getStyleClass().add("nombre-pelicula");
-        nombre.setMaxWidth(166);
-
-        int numeroFunciones = fachada.getFunciones(pelicula).size();
-        Label datos = new Label(textoClasificacion(pelicula.getRestriccionPelicula())
-                + " · " + numeroFunciones + (numeroFunciones == 1 ? " función" : " funciones"));
+        int numero = fachada.getFunciones(pelicula).size();
+        Label datos = new Label(clasificacion(pelicula) + "  ·  "
+                + numero + (numero == 1 ? " función" : " funciones"));
         datos.getStyleClass().add("texto-secundario");
-
-        VBox textos = new VBox(4, nombre, datos);
-        textos.setStyle("-fx-padding: 0 12 0 12;");
-
-        VBox tarjeta = new VBox(10, poster, textos);
+        Label ayuda = new Label("Doble clic para elegir asientos");
+        ayuda.getStyleClass().add("ayuda-tarjeta");
+        ayuda.setWrapText(true);
+        VBox textos = new VBox(6, nombre, datos, ayuda);
+        textos.getStyleClass().add("texto-tarjeta");
+        VBox tarjeta = new VBox(0, poster, textos);
+        tarjeta.setPrefWidth(230);
+        tarjeta.setMinWidth(0);
+        tarjeta.setMaxHeight(Region.USE_PREF_SIZE);
         tarjeta.getStyleClass().add("tarjeta-pelicula");
-        tarjeta.setPrefWidth(194);
-        tarjeta.setOnMouseClicked(evento -> seleccionar(pelicula, tarjeta));
+        tarjeta.setId("pelicula-" + pelicula.getCodigo());
+        tarjeta.setFocusTraversable(true);
+        tarjeta.setAccessibleRole(AccessibleRole.BUTTON);
+        tarjeta.setAccessibleText(pelicula.getNombrePelicula()
+                + ". Doble clic o Enter para elegir asientos.");
+        poster.prefHeightProperty().bind(tarjeta.widthProperty().multiply(1.42));
+        Visuales.colorear(tarjeta, pelicula);
+        Visuales.animarTarjeta(tarjeta, pelicula);
+
+        tarjeta.setOnMouseClicked(evento -> {
+            if (evento.getButton() != MouseButton.PRIMARY) return;
+            seleccionar(pelicula, tarjeta);
+            if (evento.getClickCount() == 2) elegirAsientos();
+        });
+        tarjeta.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.ENTER || evento.getCode() == KeyCode.SPACE) {
+                seleccionar(pelicula, tarjeta);
+                if (evento.getCode() == KeyCode.ENTER) elegirAsientos();
+                evento.consume();
+            }
+        });
         return tarjeta;
     }
 
     private void seleccionar(Pelicula pelicula, VBox tarjeta) {
+        // El segundo clic no debe borrar una función que ya eligió el usuario.
+        if (peliculaSeleccionada == pelicula) return;
         if (tarjetaSeleccionada != null) {
             tarjetaSeleccionada.getStyleClass().remove("tarjeta-pelicula-seleccionada");
         }
         tarjetaSeleccionada = tarjeta;
         tarjeta.getStyleClass().add("tarjeta-pelicula-seleccionada");
         peliculaSeleccionada = pelicula;
-
+        Visuales.colorear(panelDetalle, pelicula);
         lblTitulo.setText(pelicula.getNombrePelicula());
-        lblClasificacion.setText(textoClasificacion(pelicula.getRestriccionPelicula()));
+        lblClasificacion.setText(clasificacion(pelicula));
         lblDescripcion.setText(pelicula.getDescripcion());
-
         listaFunciones.getItems().setAll(fachada.getFunciones(pelicula));
-        if (!listaFunciones.getItems().isEmpty()) {
-            listaFunciones.getSelectionModel().selectFirst();
-        } else {
-            mostrarPrecio(null);
-        }
+        if (listaFunciones.getItems().isEmpty()) mostrarPrecio(null);
+        else listaFunciones.getSelectionModel().selectFirst();
+    }
+
+    private String clasificacion(Pelicula pelicula) {
+        RestriccionPelicula r = pelicula.getRestriccionPelicula();
+        return r == null ? "Todo público" : "+" + r.getEdadMinima() + " años";
     }
 
     private void mostrarPrecio(Funcion funcion) {
         btnElegirAsientos.setDisable(funcion == null);
         if (funcion == null) {
-            lblPrecio.setText(listaFunciones.getItems().isEmpty()
-                    ? "Esta película no tiene funciones programadas."
-                    : "Selecciona una función.");
+            lblPrecio.setText("No hay funciones disponibles.");
             return;
         }
         Entrada entrada = fachada.getTipoEntrada(funcion);
-        lblPrecio.setText(entrada.getDetalle() + ": " + Formato.moneda(entrada.calcularPrecioEntrada())
-                + " por persona");
-    }
-
-    private String textoClasificacion(RestriccionPelicula restriccion) {
-        return restriccion == null ? "Todo público" : "+" + restriccion.getEdadMinima();
+        lblPrecio.setText(Formato.moneda(entrada.calcularPrecioEntrada())
+                + " / persona\n" + entrada.getDetalle());
     }
 
     @FXML
     private void elegirAsientos() {
         Funcion funcion = listaFunciones.getSelectionModel().getSelectedItem();
-        if (funcion == null || peliculaSeleccionada == null) {
-            return;
-        }
+        if (funcion == null || peliculaSeleccionada == null) return;
         contexto.getCarrito().seleccionarFuncion(peliculaSeleccionada, funcion);
         contexto.mostrar(Vista.ASIENTOS);
     }

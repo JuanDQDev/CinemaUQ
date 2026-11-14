@@ -23,6 +23,8 @@ import java.util.List;
  */
 public class AsientosController implements Controlador {
 
+    @FXML private javafx.scene.layout.VBox paginaAsientos;
+    @FXML private javafx.scene.layout.StackPane fondoPantalla;
     @FXML private Label lblPelicula;
     @FXML private Label lblFuncion;
     @FXML private GridPane gridAsientos;
@@ -46,6 +48,8 @@ public class AsientosController implements Controlador {
             return;
         }
         entrada = contexto.getFachada().getTipoEntrada(funcion);
+        Visuales.colorear(paginaAsientos, carrito.getPelicula());
+        Visuales.ponerFondo(fondoPantalla, carrito.getPelicula());
 
         lblPelicula.setText(carrito.getPelicula().getNombrePelicula());
         lblFuncion.setText(Formato.funcion(funcion));
@@ -83,17 +87,21 @@ public class AsientosController implements Controlador {
         String codigo = asiento.getCodigo();
         ToggleButton boton = new ToggleButton(String.valueOf(asiento.getNumero()));
         boton.getStyleClass().add("asiento");
-        boton.setFocusTraversable(false);
+        boton.setId("asiento-" + codigo);
+        boton.setAccessibleText("Asiento " + codigo);
+        boton.setFocusTraversable(true);
         if (asiento.isOcupado()) {
             boton.getStyleClass().add("asiento-ocupado");
             boton.setDisable(true);
             boton.setTooltip(new Tooltip(codigo + " · ocupado"));
         } else {
             boton.setSelected(carrito.contieneAsiento(codigo));
-            boton.setTooltip(new Tooltip(codigo + " · libre"));
+            boton.setTooltip(new Tooltip(codigo + (boton.isSelected() ? " · seleccionado" : " · libre")));
             boton.setOnAction(evento -> {
                 boolean elegido = carrito.alternarAsiento(codigo);
                 boton.setSelected(elegido);
+                boton.setTooltip(new Tooltip(codigo + (elegido ? " · seleccionado" : " · libre")));
+                boton.setAccessibleText("Asiento " + codigo + (elegido ? ", seleccionado" : ", libre"));
                 actualizarResumen();
             });
         }

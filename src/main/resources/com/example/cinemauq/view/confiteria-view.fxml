@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- Paso 3: confitería. Productos y combos se tratan igual gracias al Composite (ElementoProducto). -->
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cinemauq.controller.ConfiteriaController">
     <top>
@@ -22,7 +21,7 @@
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" styleClass="scroll-limpio">
+        <ScrollPane fitToWidth="true" styleClass="scroll-limpio" prefHeight="510" minHeight="510">
             <VBox fx:id="listaProductos" spacing="10"/>
         </ScrollPane>
     </center>

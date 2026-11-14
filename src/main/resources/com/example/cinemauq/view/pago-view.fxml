@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- Paso 4: resumen y pago con la tarjeta virtual -->
 <HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cinemauq.controller.PagoController"
       spacing="20">
     <VBox spacing="6" HBox.hgrow="ALWAYS">
         <Label text="Resumen de la compra" styleClass="titulo-vista"/>
         <Label text="Revisa los datos antes de pagar." styleClass="subtitulo"/>
-        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-limpio">
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-limpio" prefHeight="530" minHeight="530">
             <VBox fx:id="panelResumen" spacing="10" styleClass="tarjeta"/>
         </ScrollPane>
     </VBox>
