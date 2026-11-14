@@ -88,7 +88,7 @@ class CompraTarjetaVirtualTest {
     void recargaAutorizadaSumaSaldoYQuedaRegistrada() {
         int saldoInicial = fachada.getTarjeta().getSaldo();
 
-        fachada.recargarTarjeta(50000);
+        fachada.recargarTarjeta(50000, "A01", "Admin123");
 
         assertEquals(saldoInicial + 50000, fachada.getTarjeta().getSaldo());
         List<MovimientoTarjeta> movimientos = fachada.getTarjeta().getMovimientos();

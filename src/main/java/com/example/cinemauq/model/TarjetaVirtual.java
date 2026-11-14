@@ -69,32 +69,61 @@ public class TarjetaVirtual {
 
     }
 
-    public void reembolsar(int monto, String referenciaCompra){
-        validarMonto(monto);
-        verificarActiva();
-        if(referenciaCompra == null || referenciaCompra.isBlank()){
-            throw new IllegalArgumentException("Se requiere la referencia de la compra");
+    public void reembolsar(int monto, String referenciaCompra) {
+        if (monto <= 0) {
+            throw new IllegalArgumentException(
+                    "El reembolso debe ser mayor que cero");
         }
-        boolean encontrada = false;
-        for (MovimientoTarjeta movimiento : movimientos){
-            if(movimiento.getDescripcion().equals(referenciaCompra)){
-                if(movimiento.getTipo() == TipoMovimiento.REEMBOLSO){
-                    throw new IllegalArgumentException("Esta referencia ya fue reembolsada");
+
+        verificarActiva();
+
+        if (referenciaCompra == null || referenciaCompra.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Se requiere la referencia de la compra");
+        }
+
+        boolean compraEncontrada = false;
+        int valorPagado = 0;
+
+        for (MovimientoTarjeta movimiento : movimientos) {
+            if (referenciaCompra.equals(movimiento.getDescripcion())) {
+
+                if (movimiento.getTipo() == TipoMovimiento.REEMBOLSO) {
+                    throw new IllegalArgumentException(
+                            "Esta compra ya fue reembolsada");
                 }
-                if (movimiento.getTipo() == TipoMovimiento.COMPRA && movimiento.getMonto() == -monto) {
-                    encontrada = true;
+
+                if (movimiento.getTipo() == TipoMovimiento.COMPRA) {
+                    compraEncontrada = true;
+
+                    valorPagado = -movimiento.getMonto();
                 }
             }
         }
-        if(!encontrada){
-            throw new IllegalArgumentException("No existe esta referencia de pago");
+
+        if (!compraEncontrada) {
+            throw new IllegalArgumentException(
+                    "No existe esta referencia de pago");
         }
+
+        if (monto > valorPagado) {
+            throw new IllegalArgumentException(
+                    "No se puede devolver mas de lo pagado");
+        }
+
         if (monto > Integer.MAX_VALUE - saldo) {
-            throw new IllegalArgumentException("El reembolso supera el saldo maximo permitido");
+            throw new IllegalArgumentException(
+                    "El reembolso supera el saldo maximo permitido");
         }
-        saldo = saldo + monto;
-        movimientos.add(new MovimientoTarjeta(TipoMovimiento.REEMBOLSO, monto, saldo, referenciaCompra));
-        }
+
+        saldo += monto;
+
+        movimientos.add(new MovimientoTarjeta(
+                TipoMovimiento.REEMBOLSO,
+                monto,
+                saldo,
+                referenciaCompra));
+    }
 
 
     public String getNumero() { return numero; }

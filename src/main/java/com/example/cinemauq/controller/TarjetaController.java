@@ -11,6 +11,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.VBox;
 
 import java.util.Collections;
 import java.util.List;
@@ -112,12 +117,46 @@ public class TarjetaController implements Controlador {
             Alertas.error(new IllegalArgumentException("El monto de la recarga debe ser mayor que cero."));
             return;
         }
+        TextField txtAdministrador = new TextField();
+        txtAdministrador.setPromptText(
+                "Identificación del administrador");
+
+        PasswordField txtClave = new PasswordField();
+        txtClave.setPromptText("Clave del administrador");
+
+        VBox campos = new VBox(10);
+        campos.getChildren().addAll(
+                new Label("Identificación:"),
+                txtAdministrador,
+                new Label("Clave:"),
+                txtClave);
+
+        Alert autorizacion = new Alert(Alert.AlertType.CONFIRMATION);
+        autorizacion.setTitle("Autorización de recarga");
+        autorizacion.setHeaderText(
+                "El administrador debe autorizar " + Formato.moneda(monto));
+        autorizacion.getDialogPane().setContent(campos);
+
+        Optional<ButtonType> respuesta = autorizacion.showAndWait();
+
+        if (!respuesta.isPresent() || respuesta.get() != ButtonType.OK) {
+            return;
+        }
+
         try {
-            fachada.recargarTarjeta(monto);
+            fachada.recargarTarjeta(
+                    monto,
+                    txtAdministrador.getText().trim(),
+                    txtClave.getText());
+
             txtMonto.clear();
             refrescar();
+
         } catch (RuntimeException error) {
             Alertas.error(error);
+
+        } finally {
+            txtClave.clear();
         }
     }
 
