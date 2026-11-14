@@ -131,43 +131,50 @@ public class ServicioCompra {
     }
 
     public double procesarReembolso(Compra compra, LocalDateTime horaActual) {
-        // 1. Calcular las horas restantes entre el momento actual y la función
-        long horasRestantes = java.time.Duration.between(horaActual, compra.getFuncion().getFechaHoraFuncion()).toHours();
-
-        // 2. Seleccionar la estrategia adecuada según el tiempo
-        IPoliticaReembolso politica;
-        if (horasRestantes > 24) {
-            politica = new ReembolsoCien();
-        } else if (horasRestantes >= 2) {
-            politica = new ReembolsoOchenta();
-        } else {
-            politica = new SinReembolso();
+        if (compra == null || horaActual == null) {
+            throw new CompraInvalidaException(
+                    "Se requieren la compra y la fecha actual");
         }
 
-        // 3. Ejecutar el cálculo delegando en la estrategia
+        compra.validarCancelacion(horaActual);
+
+        LocalDateTime fechaFuncion =
+                compra.getFuncion().getFechaHoraFuncion();
+
+        IPoliticaReembolso politica;
+
+        if (fechaFuncion.isAfter(horaActual.plusHours(24))) {
+            politica = new ReembolsoCien();
+        } else {
+            politica = new ReembolsoOchenta();
+        }
+
         return politica.calcularReembolso(compra.getTotal());
     }
+
     public void cancelarCompra(Compra compra) {
-        if (compra == null) {
-            throw new CompraInvalidaException("La compra no puede ser nula");
-        }
-
         LocalDateTime horaActual = LocalDateTime.now();
-        if (!horaActual.isBefore(compra.getFuncion().getFechaHoraFuncion())) {
-            throw new CompraInvalidaException("No se puede cancelar una función que ya comenzó o finalizó.");
+
+        int monto = (int) Math.round(
+                procesarReembolso(compra, horaActual));
+
+        List<Asiento> asientosALiberar = new ArrayList<>();
+
+        for (String codigo : compra.getAsientos()) {
+            Asiento asiento = compra.getFuncion()
+                    .getSalaFuncion()
+                    .buscarAsiento(codigo);
+
+            asientosALiberar.add(asiento);
         }
 
-        double calculoReembolso = procesarReembolso(compra, horaActual);
-        int montoAReembolsar = (int) Math.round(calculoReembolso);
+        // En caso de fallos no se liberan asientos ni se cambia el estado.
+        compra.getCliente().getTarjeta().reembolsar(
+                monto, compra.getFactura());
 
-        // Si hay dinero a devolver, lo enviamos a la tarjeta virtual del cliente
-        if (montoAReembolsar > 0) {
-            compra.getCliente().getTarjeta().reembolsar(montoAReembolsar, compra.getFactura());
+        for (Asiento asiento : asientosALiberar) {
+            asiento.liberar();
         }
-
-        // Liberamos los asientos en la sala de cine
-        for (String codigoAsiento : compra.getAsientos()) {
-            compra.getFuncion().getSalaFuncion().buscarAsiento(codigoAsiento).liberar();
-        }
+        compra.marcarCancelada(horaActual);
     }
 }
