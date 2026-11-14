@@ -9,17 +9,16 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- Tarjeta virtual: saldo, estado, recarga y movimientos -->
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cinemauq.controller.TarjetaController"
       spacing="14">
     <VBox spacing="4">
         <Label text="Mi tarjeta virtual" styleClass="titulo-vista"/>
-        <Label text="Consulta tu saldo, recarga la tarjeta y revisa todos sus movimientos." styleClass="subtitulo"/>
+        <Label text="Tu saldo y tus movimientos, en un solo lugar." styleClass="subtitulo"/>
     </VBox>
 
     <HBox spacing="16">
-        <VBox spacing="8" styleClass="tarjeta-virtual" prefWidth="340" minWidth="320">
+        <VBox spacing="8" styleClass="tarjeta-virtual" prefWidth="290" minWidth="250">
             <Label text="TARJETA VIRTUAL CINEMAUQ"/>
             <Label fx:id="lblNumero" styleClass="tarjeta-virtual-numero"/>
             <Region prefHeight="10"/>
@@ -28,7 +27,7 @@
             <Label fx:id="lblTitular"/>
         </VBox>
 
-        <VBox spacing="10" styleClass="tarjeta" prefWidth="250" minWidth="230">
+        <VBox spacing="10" styleClass="tarjeta" prefWidth="225" minWidth="200">
             <Label text="Estado" styleClass="titulo-seccion"/>
             <HBox>
                 <Label fx:id="lblEstado"/>
@@ -58,7 +57,7 @@
 
     <VBox spacing="8" styleClass="tarjeta" VBox.vgrow="ALWAYS">
         <Label text="Movimientos" styleClass="titulo-seccion"/>
-        <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS" prefHeight="360" minHeight="300">
             <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
             <columns>
                 <TableColumn fx:id="colFecha" text="Fecha" prefWidth="140"/>

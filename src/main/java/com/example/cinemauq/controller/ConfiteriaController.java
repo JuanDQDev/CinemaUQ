@@ -60,10 +60,12 @@ public class ConfiteriaController implements Controlador {
 
         Label nombre = new Label(producto.getNombre());
         nombre.getStyleClass().add("nombre-pelicula");
+        nombre.setWrapText(true);
         Label detalle = new Label(describir(producto));
         detalle.getStyleClass().add("texto-secundario");
         detalle.setWrapText(true);
         VBox textos = new VBox(3, nombre, detalle);
+        textos.setMinWidth(0);
         if (esCombo) {
             Combo combo = (Combo) producto;
             Label descuento = new Label(Math.round(combo.getDescuento() * 100) + " % de descuento");
@@ -101,6 +103,7 @@ public class ConfiteriaController implements Controlador {
 
         HBox controles = new HBox(6, menos, cantidad, mas);
         controles.setAlignment(Pos.CENTER);
+        controles.setMinWidth(Region.USE_PREF_SIZE);
 
         HBox fila = new HBox(14, icono, textos, precio, controles);
         fila.setAlignment(Pos.CENTER_LEFT);

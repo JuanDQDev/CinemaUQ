@@ -30,13 +30,18 @@ public class CinemaUQApplication extends Application {
         PrincipalController principal = cargador.getController();
         principal.inicializar(contexto);
 
-        Scene escena = new Scene(raiz, 1180, 760);
+        Scene escena = new Scene(raiz, 1360, 850);
         escena.getStylesheets().add(
                 CinemaUQApplication.class.getResource("css/cinemauq.css").toExternalForm());
 
-        ventana.setTitle("CinemaUQ");
-        ventana.setMinWidth(1040);
-        ventana.setMinHeight(700);
+        ventana.setTitle("CinemaUQ · Tu próxima historia");
+        ventana.getIcons().setAll(com.example.cinemauq.controller.Visuales.logo());
+        javafx.geometry.Rectangle2D pantalla =
+                javafx.stage.Screen.getPrimary().getVisualBounds();
+        ventana.setWidth(Math.min(1360, pantalla.getWidth() - 40));
+        ventana.setHeight(Math.min(850, pantalla.getHeight() - 40));
+        ventana.setMinWidth(1024);
+        ventana.setMinHeight(680);
         ventana.setScene(escena);
         ventana.show();
     }

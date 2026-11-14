@@ -12,6 +12,10 @@ import javafx.scene.layout.StackPane;
  */
 public class PrincipalController implements Controlador {
 
+    @FXML private StackPane raiz;
+    @FXML private javafx.scene.layout.VBox notificaciones;
+    @FXML private javafx.scene.image.ImageView logoImagen;
+    @FXML private Button btnTema;
     @FXML private StackPane contenedor;
     @FXML private Label lblCliente;
     @FXML private Label lblSaldo;
@@ -30,6 +34,11 @@ public class PrincipalController implements Controlador {
     public void inicializar(ContextoAplicacion contexto) {
         this.contexto = contexto;
         contexto.setContenedor(contenedor);
+        contexto.setRaizAplicacion(raiz);
+        logoImagen.setImage(Visuales.logo());
+        Alertas.configurar(notificaciones, raiz);
+        actualizarBotonTema();
+        Visuales.animarBotones(raiz);
 
         lblCliente.setText(contexto.getFachada().getCliente().getNombre());
         contexto.saldoProperty().addListener((obs, anterior, nuevo) -> mostrarSaldo(nuevo.intValue()));
@@ -39,8 +48,22 @@ public class PrincipalController implements Controlador {
         contexto.mostrar(Vista.CARTELERA);
     }
 
+    @FXML
+    private void cambiarTema() {
+        contexto.alternarTema();
+        actualizarBotonTema();
+    }
+
+    private void actualizarBotonTema() {
+        btnTema.setGraphic(Visuales.iconoTema(contexto.isTemaClaro()));
+        String ayuda = contexto.isTemaClaro()
+                ? "Cambiar al tema oscuro" : "Cambiar al tema claro";
+        btnTema.setTooltip(new javafx.scene.control.Tooltip(ayuda));
+        btnTema.setAccessibleText(ayuda);
+    }
+
     private void mostrarSaldo(int saldo) {
-        lblSaldo.setText("Saldo tarjeta: " + Formato.moneda(saldo));
+        lblSaldo.setText("Tu saldo  ·  " + Formato.moneda(saldo));
     }
 
     private void actualizarIndicadores(Vista vista) {

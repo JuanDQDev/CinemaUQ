@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<!-- Paso 1: cartelera. Las tarjetas de película se crean en CarteleraController. -->
-<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cinemauq.controller.CarteleraController"
-      spacing="20">
-    <VBox spacing="6" HBox.hgrow="ALWAYS">
-        <Label text="Cartelera" styleClass="titulo-vista"/>
-        <Label text="Elige una película para ver sus funciones." styleClass="subtitulo"/>
-        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-limpio">
-            <FlowPane fx:id="panelPeliculas" hgap="16" vgap="16" prefWrapLength="600">
-            </FlowPane>
-        </ScrollPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cinemauq.controller.CarteleraController" spacing="22">
+    <VBox spacing="7">
+        <Label text="AHORA EN CINEMAUQ" styleClass="eyebrow"/>
+        <Label text="Tu próxima historia empieza aquí." styleClass="titulo-vista"/>
+        <Label text="Explora la cartelera, encuentra tu función y reserva tu lugar." styleClass="subtitulo"/>
     </VBox>
-
-    <VBox spacing="10" prefWidth="390" minWidth="350" styleClass="tarjeta">
-        <Label fx:id="lblTitulo" styleClass="titulo-detalle" wrapText="true"/>
-        <HBox spacing="8">
-            <Label fx:id="lblClasificacion" styleClass="etiqueta-clasificacion"/>
-        </HBox>
-        <Label fx:id="lblDescripcion" wrapText="true" styleClass="texto-secundario" minHeight="-Infinity"/>
-        <Separator/>
-        <Label text="Funciones disponibles" styleClass="titulo-seccion"/>
-        <ListView fx:id="listaFunciones" VBox.vgrow="ALWAYS" styleClass="lista-funciones" minHeight="140"/>
-        <Label fx:id="lblPrecio" wrapText="true" styleClass="texto-precio" minHeight="-Infinity"/>
-        <Button fx:id="btnElegirAsientos" text="Elegir asientos" onAction="#elegirAsientos"
-                styleClass="boton-primario" maxWidth="Infinity"/>
-    </VBox>
-</HBox>
+    <HBox spacing="24" alignment="TOP_LEFT">
+        <VBox spacing="10" HBox.hgrow="ALWAYS" minWidth="0">
+            <FlowPane fx:id="panelPeliculas" hgap="16" vgap="24" prefWrapLength="800" styleClass="panel-peliculas"/>
+            <Label text="Un clic para explorar · Doble clic para elegir asientos"
+                   styleClass="texto-secundario" wrapText="true"/>
+        </VBox>
+        <VBox fx:id="panelDetalle" spacing="12" prefWidth="320" minWidth="300" maxWidth="320"
+              styleClass="tarjeta,detalle-pelicula">
+            <Label text="TU FUNCIÓN" styleClass="eyebrow"/>
+            <Label fx:id="lblTitulo" styleClass="titulo-detalle" wrapText="true" minHeight="-Infinity"/>
+            <HBox><Label fx:id="lblClasificacion" styleClass="etiqueta-clasificacion"/></HBox>
+            <Label fx:id="lblDescripcion" wrapText="true" styleClass="texto-secundario" minHeight="-Infinity"/>
+            <Separator/>
+            <Label text="Elige el horario" styleClass="titulo-seccion"/>
+            <ListView fx:id="listaFunciones" styleClass="lista-funciones" prefHeight="170" minHeight="150"/>
+            <Label fx:id="lblPrecio" wrapText="true" styleClass="texto-precio" minHeight="-Infinity"/>
+            <Button fx:id="btnElegirAsientos" text="Elegir asientos  →" onAction="#elegirAsientos"
+                    styleClass="boton-primario" maxWidth="Infinity"/>
+        </VBox>
+    </HBox>
+</VBox>
