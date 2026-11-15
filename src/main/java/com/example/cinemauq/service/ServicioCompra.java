@@ -9,16 +9,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioCompra {
+    private final Tarifario tarifas;
+    private final List<Promocion> promociones;
+
+    public ServicioCompra() { this(new Tarifario(), new ArrayList<>()); }
+
+    public ServicioCompra(Tarifario tarifas, List<Promocion> promociones) {
+        this.tarifas = tarifas;
+        this.promociones = promociones;
+    }
+
+    public Promocion promocionActual() {
+        Promocion mejor = null;
+        for (Promocion promocion : promociones) {
+            if (promocion.vigente(java.time.LocalDate.now())
+                    && (mejor == null || promocion.getPorcentaje() > mejor.getPorcentaje())) {
+                mejor = promocion;
+            }
+        }
+        return mejor;
+    }
+
 
     // se implemento Decorator para agregar recargos según el formato de la sala.
     public Entrada crearEntrada(Funcion funcion) {
-        Entrada entrada = new EntradaBase(18000);
+        Entrada entrada = new EntradaBase(tarifas.getEntradaBase());
         String formato = funcion.getSalaFuncion().getFormato().toUpperCase();
         if (formato.contains("3D")) {
-            entrada = new LenteTresDDecorator(entrada, 4000);
+            entrada = new LenteTresDDecorator(entrada, tarifas.getRecargo3D());
         }
         if (formato.contains("IMAX")) {
-            entrada = new PantallaIMAXDecorator(entrada, 7000);
+            entrada = new PantallaIMAXDecorator(entrada, tarifas.getRecargoIMAX());
         }
         return entrada;
     }
@@ -47,15 +68,20 @@ public class ServicioCompra {
             revisados.add(asiento);
         }
 
-        int precioEntradas = (int) Math.round(crearEntrada(funcion).calcularPrecioEntrada()) * asientos.size();
-        int total = precioEntradas;
+        long precioEntradas = Math.round(crearEntrada(funcion).calcularPrecioEntrada()) * asientos.size();
+        long total = precioEntradas;
         for (ElementoProducto producto : productos) {
             if (producto == null) {
                 throw new CompraInvalidaException("Producto inválido");
             }
             total = total + (int) Math.round(producto.calcularPrecio());
         }
-        return total;
+        if (total > Integer.MAX_VALUE || total < 0) {
+            throw new CompraInvalidaException("El total de la compra es demasiado alto");
+        }
+        Promocion promocion = promocionActual();
+        if (promocion != null) total = Math.round(total * (1 - promocion.getPorcentaje() / 100.0));
+        return (int) total;
     }
 
     public Compra comprar(Cliente cliente, Funcion funcion, List<String> asientos,
@@ -63,6 +89,8 @@ public class ServicioCompra {
         if (cliente == null || funcion == null || medioPago == null) {
             throw new CompraInvalidaException("Cliente, función y pago son obligatorios");
         }
+
+        if (funcion.isCancelada()) throw new CompraInvalidaException("La función fue cancelada por el cine");
 
         // Regla 1: verificar la edad mínima de la película.
         RestriccionPelicula restriccion = funcion.getPeliculaFuncion().getRestriccionPelicula();
@@ -108,6 +136,8 @@ public class ServicioCompra {
         // Regla 4: verificar saldo, cobrar y registrar el pago.
         medioPago.verificar(total);
         String factura = ConsecutivoFactura.getInstance().generarConsecutivo();
+        // Preparar el historial antes del cobro, por si un artículo es inválido.
+        Compra compra = new Compra(factura, cliente, funcion, seleccionados, extras, total);
         medioPago.cobrar(total, factura);
 
         // Regla 5: marcar asientos ocupados solamente cuando el pago fue aprobado.
@@ -126,8 +156,8 @@ public class ServicioCompra {
             throw error;
         }
         //Acumular puntos
-        cliente.getMontoPuntos().acumularPuntos(total);
-        return new Compra(factura, cliente, funcion, seleccionados, extras, total);
+        cliente.getMontoPuntos().acumularPuntos(total, factura);
+        return compra;
     }
 
     public double procesarReembolso(Compra compra, LocalDateTime horaActual) {
@@ -136,13 +166,12 @@ public class ServicioCompra {
                     "Se requieren la compra y la fecha actual");
         }
 
+        // State comprueba el estado de la compra y el plazo permitido.
         compra.validarCancelacion(horaActual);
 
-        LocalDateTime fechaFuncion =
-                compra.getFuncion().getFechaHoraFuncion();
-
+        // Strategy determina el porcentaje del reembolso.
+        LocalDateTime fechaFuncion = compra.getFuncion().getFechaHoraFuncion();
         IPoliticaReembolso politica;
-
         if (fechaFuncion.isAfter(horaActual.plusHours(24))) {
             politica = new ReembolsoCien();
         } else {
@@ -152,29 +181,31 @@ public class ServicioCompra {
         return politica.calcularReembolso(compra.getTotal());
     }
 
-    public void cancelarCompra(Compra compra) {
-        LocalDateTime horaActual = LocalDateTime.now();
+    public int cancelarCompra(Compra compra) {
+        return cancelarCompra(compra, LocalDateTime.now());
+    }
 
-        int monto = (int) Math.round(
-                procesarReembolso(compra, horaActual));
+    public int cancelarCompra(Compra compra, LocalDateTime hora) {
+        int monto = (int) Math.round(procesarReembolso(compra, hora));
+        return ejecutarCancelacion(compra, monto, hora, false);
+    }
 
-        List<Asiento> asientosALiberar = new ArrayList<>();
+    public int cancelarPorCine(Compra compra) {
+        if (compra == null || compra.estaCancelada()) {
+            throw new CompraInvalidaException("La compra no existe o ya está cancelada");
+        }
+        return ejecutarCancelacion(compra, compra.getTotal(), LocalDateTime.now(), true);
+    }
 
+    private int ejecutarCancelacion(Compra compra, int monto, LocalDateTime hora, boolean porCine) {
+        List<Asiento> asientos = new ArrayList<>();
         for (String codigo : compra.getAsientos()) {
-            Asiento asiento = compra.getFuncion()
-                    .getSalaFuncion()
-                    .buscarAsiento(codigo);
-
-            asientosALiberar.add(asiento);
+            asientos.add(compra.getFuncion().getSalaFuncion().buscarAsiento(codigo));
         }
-
-        // En caso de fallos no se liberan asientos ni se cambia el estado.
-        compra.getCliente().getTarjeta().reembolsar(
-                monto, compra.getFactura());
-
-        for (Asiento asiento : asientosALiberar) {
-            asiento.liberar();
-        }
-        compra.marcarCancelada(horaActual);
+        if (monto > 0) compra.getCliente().getTarjeta().reembolsar(monto, compra.getFactura());
+        for (Asiento asiento : asientos) asiento.liberar();
+        compra.registrarCancelacion(monto, hora, porCine);
+        compra.getCliente().getMontoPuntos().anularPorCompra(compra.getFactura());
+        return monto;
     }
 }

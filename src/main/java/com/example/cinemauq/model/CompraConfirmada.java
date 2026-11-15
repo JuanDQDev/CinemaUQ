@@ -34,6 +34,16 @@ public class CompraConfirmada implements EstadoCompra {
     }
 
     @Override
+    public EstadoCompra cancelarPorCine() {
+        return new CompraCancelada();
+    }
+
+    @Override
+    public boolean estaCancelada() {
+        return false;
+    }
+
+    @Override
     public String getNombre() {
         return "Confirmada";
     }

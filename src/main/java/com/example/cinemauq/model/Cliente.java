@@ -25,4 +25,9 @@ public class Cliente {
     public MontoPuntos getMontoPuntos() {
         return montoPuntos;
     }
+
+    @Override
+    public String toString() {
+            return id + " · " + nombre;
+    }
 }

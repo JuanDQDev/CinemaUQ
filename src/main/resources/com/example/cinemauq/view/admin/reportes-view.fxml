@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.ReportesAdminController"
+            fitToWidth="true" styleClass="scroll-limpio">
+    <content>
+        <VBox spacing="14" minWidth="0">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+            <Label text="Compras, estadísticas y reportes" styleClass="titulo-vista"/>
+            <Label text="El reporte separa ventas, reembolsos y recargas. La gráfica usa la fecha de compra e incluye entradas y confitería." wrapText="true" styleClass="texto-secundario"/>
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Desde"/>
+                    <DatePicker fx:id="desde"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Hasta"/>
+                    <DatePicker fx:id="hasta"/>
+                </VBox>
+                <Button text="Consultar" onAction="#consultar" styleClass="boton-secundario"/>
+                <Button text="Exportar TXT" onAction="#exportar" styleClass="boton-secundario"/>
+            </HBox>
+            <TextArea fx:id="resultado" editable="false" prefRowCount="12"/>
+            <BarChart fx:id="grafica" legendVisible="false" animated="false" prefHeight="300">
+                <xAxis><CategoryAxis/></xAxis>
+                <yAxis><NumberAxis label="Ventas brutas ($)"/></yAxis>
+            </BarChart>
+        </VBox>
+    </content>
+</ScrollPane>

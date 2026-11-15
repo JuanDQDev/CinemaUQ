@@ -2,6 +2,8 @@ package com.example.cinemauq.controller;
 
 import com.example.cinemauq.CinemaUQApplication;
 import com.example.cinemauq.model.CarritoCompra;
+import com.example.cinemauq.model.ObservadorSaldo;
+import com.example.cinemauq.model.TarjetaVirtual;
 import com.example.cinemauq.service.CinemaFacade;
 import javafx.animation.ParallelTransition;
 import javafx.beans.property.*;
@@ -14,8 +16,9 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-public final class ContextoAplicacion {
+public final class ContextoAplicacion implements ObservadorSaldo {
     private final CinemaFacade fachada;
+    private final TarjetaVirtual tarjeta;
     private final CarritoCompra carrito = new CarritoCompra();
     private final IntegerProperty saldo = new SimpleIntegerProperty();
     private final ObjectProperty<Vista> vistaActual = new SimpleObjectProperty<>();
@@ -23,11 +26,22 @@ public final class ContextoAplicacion {
     private Parent raizAplicacion;
     private boolean temaClaro;
     private ParallelTransition transicion;
+    private Runnable alCerrarSesion;
+
+    public void setAlCerrarSesion(Runnable accion) { alCerrarSesion = accion; }
+    public void cerrarSesion() {
+        if (transicion != null) transicion.stop();
+        tarjeta.quitarObservador(this);
+        carrito.vaciar();
+        if (alCerrarSesion != null) alCerrarSesion.run();
+    }
 
     public ContextoAplicacion(CinemaFacade fachada) {
         if (fachada == null) throw new IllegalArgumentException("Se requiere la fachada");
         this.fachada = fachada;
-        actualizarSaldo();
+        tarjeta = fachada.getTarjeta();
+        saldo.set(tarjeta.getSaldo());
+        tarjeta.agregarObservador(this);
     }
 
     void setContenedor(StackPane contenedor) { this.contenedor = contenedor; }
@@ -95,7 +109,11 @@ public final class ContextoAplicacion {
         transicion = Visuales.entrada(pagina);
     }
 
-    public void actualizarSaldo() { saldo.set(fachada.getTarjeta().getSaldo()); }
+    @Override
+    public void saldoCambiado(int nuevoSaldo) {
+        saldo.set(nuevoSaldo);
+    }
+
     public CinemaFacade getFachada() { return fachada; }
     public CarritoCompra getCarrito() { return carrito; }
     public ReadOnlyIntegerProperty saldoProperty() { return saldo; }

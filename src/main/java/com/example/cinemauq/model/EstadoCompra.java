@@ -6,6 +6,8 @@ public interface EstadoCompra {
 
     void validarCancelacion(Compra compra, LocalDateTime horaActual);
     EstadoCompra cancelar(Compra compra, LocalDateTime horaActual);
+    EstadoCompra cancelarPorCine();
+    boolean estaCancelada();
     String getNombre();
 
 }

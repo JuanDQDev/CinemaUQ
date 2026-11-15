@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.SalasAdminController"
+            fitToWidth="true" styleClass="scroll-limpio">
+    <content>
+        <VBox spacing="14" minWidth="0">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+            <Label text="Salas y distribución de asientos" styleClass="titulo-vista"/>
+            <Label text="Cada fila genera asientos A1, A2... Los cambios de distribución se aplican a las funciones nuevas. Las existentes conservan sus asientos." wrapText="true" styleClass="texto-secundario"/>
+            <VBox spacing="6">
+                <Label text="Sala que deseas editar"/>
+                <ComboBox fx:id="sala" promptText="Seleccionar" maxWidth="Infinity"/>
+            </VBox>
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Número"/>
+                    <TextField fx:id="numero"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Formato"/>
+                    <ComboBox fx:id="formato" promptText="Seleccionar" maxWidth="Infinity"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Filas (1 a 26)"/>
+                    <TextField fx:id="filas"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Columnas (1 a 30)"/>
+                    <TextField fx:id="columnas"/>
+                </VBox>
+            </HBox>
+            <HBox spacing="16">
+                <Button text="Guardar sala" onAction="#guardarSala" styleClass="boton-primario"/>
+                <Button text="Nueva / limpiar" onAction="#limpiar" styleClass="boton-secundario"/>
+                <Button text="Eliminar sala" onAction="#eliminar" styleClass="boton-secundario"/>
+            </HBox>
+        </VBox>
+    </content>
+</ScrollPane>

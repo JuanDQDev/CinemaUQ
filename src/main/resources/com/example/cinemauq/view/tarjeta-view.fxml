@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<!-- Tarjeta virtual: saldo, estado, recarga y movimientos -->
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cinemauq.controller.TarjetaController"
       spacing="14">
@@ -41,7 +42,7 @@
 
         <VBox spacing="10" styleClass="tarjeta" HBox.hgrow="ALWAYS" minWidth="300">
             <Label text="Recargar saldo" styleClass="titulo-seccion"/>
-            <Label text="Las recargas las autoriza el administrador del cine."
+            <Label text="Solicita una recarga. El administrador la aprueba desde su cuenta."
                    wrapText="true" styleClass="texto-secundario" minHeight="-Infinity"/>
             <HBox spacing="8">
                 <Button text="+ $20.000" onAction="#sugerir20" styleClass="boton-secundario"/>
@@ -50,11 +51,12 @@
             </HBox>
             <HBox spacing="8">
                 <TextField fx:id="txtMonto" promptText="Monto a recargar" HBox.hgrow="ALWAYS"/>
-                <Button text="Recargar" onAction="#recargar" styleClass="boton-primario"/>
+                <Button text="Solicitar" onAction="#recargar" styleClass="boton-primario"/>
             </HBox>
         </VBox>
     </HBox>
 
+    <Label fx:id="lblSolicitudes" wrapText="true" styleClass="texto-secundario"/>
     <VBox spacing="8" styleClass="tarjeta" VBox.vgrow="ALWAYS">
         <Label text="Movimientos" styleClass="titulo-seccion"/>
         <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS" prefHeight="360" minHeight="300">

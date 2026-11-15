@@ -16,6 +16,15 @@ public class Pelicula {
         this.restriccionPelicula = restriccionPelicula;
     }
 
+    public void actualizar(String nombre, String descripcion, RestriccionPelicula restriccion) {
+        if(nombre == null || nombre.isBlank() || descripcion == null || descripcion.isBlank()) {
+            throw new IllegalArgumentException("Debes escribir el titulo y la descripcion");
+        }
+        this.nombrePelicula = nombre.trim();
+        this.descripcion = descripcion.trim();
+        this.restriccionPelicula = restriccion;
+    }
+
     public String getCodigo() { return codigo; }
     public String getNombrePelicula() { return nombrePelicula; }
     public String getDescripcion() { return descripcion; }

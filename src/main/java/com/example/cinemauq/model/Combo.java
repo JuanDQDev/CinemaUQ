@@ -1,5 +1,6 @@
 package com.example.cinemauq.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Combo implements ElementoProducto {
@@ -14,7 +15,7 @@ public class Combo implements ElementoProducto {
         }
         this.nombreCombo = nombreCombo;
         this.descuento = descuento;
-        this.elementos = elementos;
+        this.elementos = new ArrayList<>(elementos);
     }
 
 
@@ -50,9 +51,24 @@ public class Combo implements ElementoProducto {
     public String getNombre() {
         return nombreCombo;
     }
+    public void actualizar(String nombre, double descuento, List<ElementoProducto> productos) {
+        if(nombre == null || nombre.isBlank() || descuento < 0 || descuento > 1
+                || productos == null || productos.isEmpty() ){
+            throw new IllegalArgumentException("El combo requiere nombre, productos y un descuento");
+        }
+        for(ElementoProducto producto : productos){
+            if(!(producto instanceof Producto)){
+                throw new IllegalArgumentException("Selecciona productos individuales para el combo.");
+            }
+        }
+        this.nombreCombo = nombre.trim();
+        this.descuento = descuento;
+        this.elementos = new ArrayList<>(productos);
+    }
+
     public double getDescuento() { return descuento; }
     public List<ElementoProducto> getElementos() {
-        return elementos;
+        return new ArrayList<>(elementos);
     }
     @Override
     public String toString() { return nombreCombo + " - $" + Math.round(calcularPrecio()); }

@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<!-- Historial de compras del cliente -->
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cinemauq.controller.ComprasController"
       spacing="14">
@@ -29,8 +30,16 @@
                 <TableColumn fx:id="colFuncion" text="Función" prefWidth="260"/>
                 <TableColumn fx:id="colAsientos" text="Asientos" prefWidth="110"/>
                 <TableColumn fx:id="colConfiteria" text="Confitería" prefWidth="160"/>
-                <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
+                <TableColumn fx:id="colTotal" text="Pagado" prefWidth="100"/>
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="110"/>
+                <TableColumn fx:id="colReembolso" text="Devuelto" prefWidth="100"/>
             </columns>
         </TableView>
+    </VBox>
+    <VBox spacing="12" styleClass="tarjeta">
+        <Label text="Cancelación y reembolso" styleClass="titulo-seccion"/>
+        <Label text="Más de 24 horas: 100 %. Entre 2 y 24 horas: 80 %. Con menos de 2 horas no se permite cancelar." wrapText="true" styleClass="texto-secundario"/>
+        <Label fx:id="lblCancelacion" wrapText="true"/>
+        <Button fx:id="btnCancelar" text="Cancelar compra" onAction="#cancelarCompra" styleClass="boton-primario" disable="true"/>
     </VBox>
 </VBox>
