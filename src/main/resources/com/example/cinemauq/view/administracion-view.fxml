@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:id="raiz" fx:controller="com.example.cinemauq.controller.AdministracionController"
+           styleClass="raiz">
+    <BorderPane>
+        <top>
+            <HBox spacing="16" alignment="CENTER_LEFT" styleClass="barra-superior">
+                <Label text="CinemaUQ · Administración" styleClass="titulo-seccion"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnTemaAdmin" styleClass="boton-tema" accessibleText="Cambiar tema"
+                        onAction="#cambiarTema"/>
+                <Button fx:id="btnSalirAdmin" text="Cerrar sesión" styleClass="boton-secundario"
+                        onAction="#cerrarSesion"/>
+            </HBox>
+        </top>
+        <center>
+            <TabPane fx:id="pestanasAdmin" tabClosingPolicy="UNAVAILABLE">
+                <tabs>
+                    <Tab id="tarifas" text="Tarifas"/>
+                    <Tab id="peliculas" text="Películas"/>
+                    <Tab id="salas" text="Salas"/>
+                    <Tab id="funciones" text="Funciones"/>
+                    <Tab id="confiteria" text="Confitería"/>
+                    <Tab id="promociones" text="Promociones"/>
+                    <Tab id="clientes" text="Clientes y recargas"/>
+                    <Tab id="reportes" text="Compras y reportes"/>
+                </tabs>
+            </TabPane>
+        </center>
+    </BorderPane>
+    <VBox fx:id="avisos" spacing="12" pickOnBounds="false" maxWidth="430" maxHeight="-Infinity"
+          StackPane.alignment="BOTTOM_RIGHT">
+        <StackPane.margin><Insets top="24" right="24" bottom="24" left="24"/></StackPane.margin>
+    </VBox>
+</StackPane>

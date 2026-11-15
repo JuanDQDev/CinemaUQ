@@ -111,4 +111,8 @@ public class Sala implements Clonable<Sala> {
     public List<Asiento> getAsientos() {
         return Collections.unmodifiableList(asientos);
     }
+    @Override
+    public String toString() {
+        return "Sala " + numero + " - " + formato + " - " + filas + " - " + columnas + " asientos";
+    }
 }

@@ -22,9 +22,10 @@
                     <Button fx:id="btnCompras" text="Mis compras" onAction="#irACompras" styleClass="nav"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <VBox alignment="CENTER_RIGHT" spacing="3">
-                        <Label fx:id="lblCliente" styleClass="cliente"/>
+                        <Label fx:id="lblCliente" styleClass="cliente" maxWidth="140"/>
                         <Label fx:id="lblSaldo" styleClass="saldo"/>
                     </VBox>
+                    <Button fx:id="btnSalir" text="Salir" onAction="#cerrarSesion" styleClass="boton-secundario"/>
                     <Button fx:id="btnTema" onAction="#cambiarTema" styleClass="boton-tema" minWidth="42" minHeight="42"/>
                 </HBox>
                 <HBox fx:id="barraPasos" styleClass="barra-pasos" alignment="CENTER_LEFT" spacing="16">

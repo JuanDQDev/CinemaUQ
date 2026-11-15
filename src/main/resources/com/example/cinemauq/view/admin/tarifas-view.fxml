@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.TarifasAdminController"
+            fitToWidth="true" styleClass="scroll-limpio">
+    <content>
+        <VBox spacing="14" minWidth="0">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+            <Label text="Precios de entradas" styleClass="titulo-vista"/>
+            <Label text="Los cambios aplican a compras nuevas. Las compras existentes conservan su total y su reembolso." wrapText="true" styleClass="texto-secundario"/>
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Entrada base ($)"/>
+                    <TextField fx:id="tarifaBase"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Recargo 3D ($)"/>
+                    <TextField fx:id="recargo3D"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Recargo IMAX ($)"/>
+                    <TextField fx:id="recargoIMAX"/>
+                </VBox>
+            </HBox>
+            <Button text="Guardar tarifas" onAction="#guardarTarifas" styleClass="boton-primario"/>
+            <Label text="IMAX 3D suma ambos recargos. Las promociones vigentes se aplican al total de la compra." wrapText="true"/>
+        </VBox>
+    </content>
+</ScrollPane>

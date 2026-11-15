@@ -19,8 +19,17 @@ public final class Alertas {
     private Alertas() { }
 
     public static void configurar(VBox panel, Parent raizPrincipal) {
+        if (contenedor != null) contenedor.getChildren().clear();
         contenedor = panel;
         raiz = raizPrincipal;
+    }
+
+    public static boolean confirmar(String titulo, String mensaje) {
+        Alert dialogo = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.OK, ButtonType.CANCEL);
+        dialogo.setTitle(titulo);
+        dialogo.setHeaderText(titulo);
+        prepararDialogo(dialogo);
+        return dialogo.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
 
     public static void setTemaClaro(boolean claro) { temaClaro = claro; }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.ClientesAdminController"
+            fitToWidth="true" styleClass="scroll-limpio">
+    <content>
+        <VBox spacing="14" minWidth="0">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+            <Label text="Clientes y recargas" styleClass="titulo-vista"/>
+            <Label text="Solo el administrador puede acreditar recargas. Las solicitudes ya resueltas no se pueden aprobar de nuevo." wrapText="true" styleClass="texto-secundario"/>
+            <VBox spacing="6">
+                <Label text="Cliente registrado"/>
+                <ComboBox fx:id="cliente" promptText="Seleccionar" maxWidth="Infinity"/>
+            </VBox>
+            <Label fx:id="datos" wrapText="true"/>
+            <VBox spacing="6">
+                <Label text="Compras del cliente"/>
+                <TextArea fx:id="historial" editable="false" prefRowCount="7" wrapText="true"/>
+            </VBox>
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Monto de recarga directa ($)"/>
+                    <TextField fx:id="monto"/>
+                </VBox>
+                <Button text="Recargar tarjeta del cliente" onAction="#recargar" styleClass="boton-secundario"/>
+            </HBox>
+            <VBox spacing="6">
+                <Label text="Solicitudes enviadas desde Mi tarjeta"/>
+                <ComboBox fx:id="solicitud" promptText="Seleccionar" maxWidth="Infinity"/>
+            </VBox>
+            <HBox spacing="16">
+                <Button text="Aprobar solicitud" onAction="#aprobar" styleClass="boton-secundario"/>
+                <Button text="Rechazar solicitud" onAction="#rechazar" styleClass="boton-secundario"/>
+            </HBox>
+        </VBox>
+    </content>
+</ScrollPane>

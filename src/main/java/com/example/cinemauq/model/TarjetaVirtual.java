@@ -11,6 +11,7 @@ public class TarjetaVirtual {
     private boolean activa = true;
     private int saldo = 0;
     private final List<MovimientoTarjeta> movimientos = new ArrayList<>();
+    private final List<ObservadorSaldo> observadores = new ArrayList<>();
 
     public TarjetaVirtual(String numero) {
         if (numero == null || numero.isBlank()) {
@@ -49,8 +50,7 @@ public class TarjetaVirtual {
                 throw new IllegalArgumentException("La referencia de pago ya fue utilizada");
             }
         }
-        saldo = saldo - monto;
-        movimientos.add(new MovimientoTarjeta(TipoMovimiento.COMPRA, -monto, saldo, descripcion));
+        registrarMovimiento(TipoMovimiento.COMPRA, -monto, descripcion);
     }
 
     public void recargar(Administrador administrador, int monto){
@@ -62,21 +62,22 @@ public class TarjetaVirtual {
         if (monto > Integer.MAX_VALUE - saldo) {
             throw new IllegalArgumentException("La recarga supera el saldo maximo");
         }
-        saldo = saldo + monto;
-        movimientos.add(new MovimientoTarjeta(TipoMovimiento.RECARGA, monto,
-                saldo, "Recarga autorizada por: " + administrador.getNombre()));
-
-
+        registrarMovimiento(TipoMovimiento.RECARGA, monto,
+                "Recarga autorizada por: " + administrador.getNombre());
     }
 
-    public void reembolsar(int monto, String referenciaCompra) {
+    public void otorgarBonoBienvenida() {
+        if (saldo != 0 || !movimientos.isEmpty()) {
+            throw new IllegalStateException("El bono inicial ya fue asignado");
+        }
+        registrarMovimiento(TipoMovimiento.BONO_BIENVENIDA, 50000, "Bono de bienvenida");
+    }
+
+    public void validarReembolso(int monto, String referenciaCompra) {
         if (monto <= 0) {
             throw new IllegalArgumentException(
                     "El reembolso debe ser mayor que cero");
         }
-
-        verificarActiva();
-
         if (referenciaCompra == null || referenciaCompra.isBlank()) {
             throw new IllegalArgumentException(
                     "Se requiere la referencia de la compra");
@@ -84,18 +85,14 @@ public class TarjetaVirtual {
 
         boolean compraEncontrada = false;
         int valorPagado = 0;
-
         for (MovimientoTarjeta movimiento : movimientos) {
             if (referenciaCompra.equals(movimiento.getDescripcion())) {
-
                 if (movimiento.getTipo() == TipoMovimiento.REEMBOLSO) {
                     throw new IllegalArgumentException(
                             "Esta compra ya fue reembolsada");
                 }
-
                 if (movimiento.getTipo() == TipoMovimiento.COMPRA) {
                     compraEncontrada = true;
-
                     valorPagado = -movimiento.getMonto();
                 }
             }
@@ -105,26 +102,51 @@ public class TarjetaVirtual {
             throw new IllegalArgumentException(
                     "No existe esta referencia de pago");
         }
-
         if (monto > valorPagado) {
             throw new IllegalArgumentException(
-                    "No se puede devolver mas de lo pagado");
+                    "No se puede devolver más de lo pagado");
         }
-
         if (monto > Integer.MAX_VALUE - saldo) {
             throw new IllegalArgumentException(
-                    "El reembolso supera el saldo maximo permitido");
+                    "El reembolso supera el saldo máximo permitido");
         }
 
-        saldo += monto;
-
-        movimientos.add(new MovimientoTarjeta(
-                TipoMovimiento.REEMBOLSO,
-                monto,
-                saldo,
-                referenciaCompra));
     }
 
+    public void reembolsar(int monto, String referenciaCompra) {
+        validarReembolso(monto, referenciaCompra);
+        registrarMovimiento(TipoMovimiento.REEMBOLSO, monto, referenciaCompra);
+    }
+
+    public void agregarObservador(ObservadorSaldo observador) {
+        if (observador != null && !observadores.contains(observador)) {
+            observadores.add(observador);
+        }
+    }
+
+    public void quitarObservador(ObservadorSaldo observador) {
+        observadores.remove(observador);
+    }
+
+    private void registrarMovimiento(TipoMovimiento tipo, int monto, String descripcion) {
+        saldo += monto;
+        movimientos.add(new MovimientoTarjeta(tipo, monto, saldo, descripcion));
+        if (monto != 0) notificarSaldo();
+    }
+
+    private void notificarSaldo() {
+        // Copia para que un observador pueda retirarse durante el aviso.
+        int nuevoSaldo = saldo;
+        for (ObservadorSaldo observador : new ArrayList<>(observadores)) {
+            try {
+                observador.saldoCambiado(nuevoSaldo);
+            } catch (RuntimeException error) {
+                // Un fallo de la pantalla no revierte un movimiento ya registrado.
+                System.getLogger(TarjetaVirtual.class.getName()).log(
+                        System.Logger.Level.WARNING, "No se pudo avisar el nuevo saldo", error);
+            }
+        }
+    }
 
     public String getNumero() { return numero; }
     public boolean isActiva() { return activa; }

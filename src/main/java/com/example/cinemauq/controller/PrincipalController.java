@@ -62,6 +62,8 @@ public class PrincipalController implements Controlador {
         btnTema.setAccessibleText(ayuda);
     }
 
+    @FXML private void cerrarSesion() { contexto.cerrarSesion(); }
+
     private void mostrarSaldo(int saldo) {
         lblSaldo.setText("Tu saldo  ·  " + Formato.moneda(saldo));
     }

@@ -27,6 +27,14 @@ public class Producto implements ElementoProducto{
         return nombre;
     }
 
+    public void actualizar(String nombre, int precio){
+        if(nombre == null || nombre.isBlank() || precio <= 0 || precio > 1000000) {
+            throw new IllegalArgumentException("Debes escribir un nombre y un precio entre $1 y $1.000.000");
+        }
+        this.nombre = nombre.trim();
+        this.precioUnitario = precio;
+    }
+
     public double getPrecioUnitario() {
         return precioUnitario;
     }

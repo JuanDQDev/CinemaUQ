@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:id="raiz" styleClass="raiz" fx:controller="com.example.cinemauq.controller.AccesoController">
+ <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-limpio">
+ <VBox spacing="20" alignment="CENTER" style="-fx-padding: 28;">
+  <HBox alignment="CENTER" spacing="16">
+   <ImageView fx:id="logoImagen" fitWidth="72" fitHeight="72" preserveRatio="true"/>
+   <VBox spacing="4"><Label text="CinemaUQ" styleClass="titulo-vista"/><Label text="Tu próxima historia empieza aquí." styleClass="subtitulo"/></VBox>
+   <Button fx:id="btnTema" onAction="#cambiarTema" styleClass="boton-tema" accessibleText="Cambiar tema"/>
+  </HBox>
+  <HBox spacing="24" alignment="TOP_CENTER" maxWidth="960">
+   <VBox spacing="14" styleClass="tarjeta" prefWidth="420" HBox.hgrow="ALWAYS">
+    <Label text="Iniciar sesión" styleClass="titulo-vista"/>
+    <Label text="Clientes y administrador ingresan aquí." wrapText="true" styleClass="texto-secundario"/>
+    <Label text="Identificación"/><TextField fx:id="txtUsuario" promptText="Tu identificación"/>
+    <Label text="Contraseña"/><PasswordField fx:id="txtClave" onAction="#ingresar"/>
+    <Button fx:id="btnIngresar" text="Ingresar" onAction="#ingresar" styleClass="boton-primario" maxWidth="Infinity"/>
+    <Label text="Al cerrar sesión conservas tu saldo y tus compras mientras CinemaUQ siga abierto." wrapText="true" styleClass="texto-secundario"/>
+   </VBox>
+   <VBox spacing="10" styleClass="tarjeta" prefWidth="460" HBox.hgrow="ALWAYS">
+    <Label text="Crear mi cuenta" styleClass="titulo-vista"/>
+    <Label text="Recibe $50.000 de bienvenida en tu tarjeta virtual" styleClass="saldo"/>
+    <Label text="Identificación (3 a 30 letras o números)"/><TextField fx:id="txtNuevoUsuario"/>
+    <Label text="Nombre completo"/><TextField fx:id="txtNombre"/>
+    <Label text="Edad"/><TextField fx:id="txtEdad"/>
+    <Label text="Contraseña (mínimo 6 caracteres)"/><PasswordField fx:id="txtNuevaClave"/>
+    <Label text="Repetir contraseña"/><PasswordField fx:id="txtRepetirClave" onAction="#registrar"/>
+    <Button fx:id="btnRegistrar" text="Registrarme y entrar" onAction="#registrar" styleClass="boton-primario" maxWidth="Infinity"/>
+   </VBox>
+  </HBox>
+  <Label text="Versión académica: al cerrar la aplicación se borran las cuentas y los cambios." wrapText="true" styleClass="texto-secundario"/>
+ </VBox></ScrollPane>
+ <VBox fx:id="notificaciones" spacing="12" pickOnBounds="false" maxWidth="430" maxHeight="-Infinity" StackPane.alignment="BOTTOM_RIGHT">
+  <StackPane.margin><Insets right="24" bottom="24" left="24" top="24"/></StackPane.margin>
+ </VBox>
+</StackPane>

@@ -75,6 +75,7 @@ public class PagoController implements Controlador {
                         linea(unidades + " × " + producto.getNombre(), producto.calcularPrecio() * unidades));
             }
         }
+        panelResumen.getChildren().add(texto(fachada.getPromocionActual()));
         if (carrito.getProductos().isEmpty()) {
             panelResumen.getChildren().add(texto("Sin productos de confitería"));
         }
@@ -116,7 +117,6 @@ public class PagoController implements Controlador {
             Compra compra = fachada.confirmarCompra(
                     carrito.getFuncion(), carrito.getAsientos(), carrito.getProductos());
             carrito.vaciar();
-            contexto.actualizarSaldo();
             Alertas.informacion("¡Compra confirmada!",
                     "Factura " + compra.getFactura()
                             + "\nAsientos: " + String.join(", ", compra.getAsientos())

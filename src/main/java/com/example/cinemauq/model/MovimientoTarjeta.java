@@ -1,9 +1,12 @@
 package com.example.cinemauq.model;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MovimientoTarjeta {
+    private final LocalDateTime fechaReal = LocalDateTime.now();
     private final String fechaHora;
     private final TipoMovimiento tipo;
     private final int monto;
@@ -17,6 +20,8 @@ public class MovimientoTarjeta {
         this.saldoFinal = saldoFinal;
         this.descripcion = descripcion;
     }
+
+    public LocalDateTime getFechaReal() { return fechaReal; }
     public String getFechaHora() { return fechaHora; }
     public TipoMovimiento getTipo() { return tipo; }
     public int getMonto() { return monto; }

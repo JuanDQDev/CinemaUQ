@@ -3,6 +3,7 @@ package com.example.cinemauq.model;
 import java.time.LocalDateTime;
 
 public class Funcion {
+    private boolean cancelada;
     private final String idFuncion;
     private final LocalDateTime fechaHoraFuncion;
     private final String idioma;
@@ -52,7 +53,7 @@ public class Funcion {
                 throw new IllegalStateException("El identificador es incorrecto");
             }
             if(fechaHoraFuncion==null){
-                throw new IllegalStateException("Hay un error con la fehca de la funcion");
+                throw new IllegalStateException("Hay un error con la fecha de la funcion");
             }
             if(idioma==null){
                 throw new IllegalStateException("El idioma es incorrecto");
@@ -69,8 +70,17 @@ public class Funcion {
 
     @Override
     public String toString() {
-        return fechaHoraFuncion.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+        return (cancelada ? "[CANCELADA] " : "") + peliculaFuncion.getNombrePelicula() + " - " + fechaHoraFuncion.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 + " - Sala " + salaFuncion.getNumero() + " (" + salaFuncion.getFormato() + ") - " + idioma;
+    }
+
+    public boolean isCancelada() { return cancelada; }
+
+    public void cancelar(){
+        if(cancelada){
+            throw new IllegalStateException("La funcion ya esta cancelada.");
+        }
+        cancelada = true;
     }
 
     public String getIdFuncion() {

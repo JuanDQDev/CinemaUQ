@@ -69,6 +69,7 @@
 .paso-hecho { -fx-text-fill: -color-exito; }
 .separador-paso { -fx-text-fill: -color-borde; }
 
+/* Jerarquía de textos */
 .eyebrow { -fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: -color-acento; }
 .titulo-vista { -fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: -color-texto; }
 .subtitulo { -fx-font-size: 13px; -fx-text-fill: -color-suave; }
@@ -82,6 +83,7 @@
 .aviso-error { -fx-text-fill: -color-error; -fx-font-weight: bold; }
 .aviso-ok { -fx-text-fill: -color-exito; -fx-font-weight: bold; }
 
+/* Paneles y carteles */
 .tarjeta {
     -fx-background-color: -color-superficie;
     -fx-background-radius: 18;
@@ -121,6 +123,7 @@
     -fx-padding: 5 10;
 }
 
+/* Botones. Las animaciones se realizan con JavaFX, no con CSS de navegador. */
 .boton-primario {
     -fx-background-color: -color-acento;
     -fx-text-fill: #11172c;
@@ -207,6 +210,7 @@
 .separator .line { -fx-border-color: -color-borde; -fx-border-width: 0.5; }
 .tooltip { -fx-background-color: -color-elevado; -fx-text-fill: -color-texto; -fx-padding: 9; }
 
+/* Sala: el color seleccionado sigue el cartel de la película. */
 .sala-cine { -fx-padding: 20; }
 .pantalla {
     -fx-background-color: -pelicula-acento;
@@ -251,6 +255,7 @@
 .muestra-seleccionado { -fx-background-color: -pelicula-acento; }
 .muestra-ocupado { -fx-background-color: #3c4250; }
 
+/* Confitería y tarjeta virtual */
 .fila-producto {
     -fx-background-color: -color-superficie; -fx-background-radius: 14;
     -fx-border-color: -color-borde; -fx-border-radius: 14; -fx-padding: 18 14;
@@ -280,6 +285,7 @@
 .monto-positivo { -fx-text-fill: -color-exito; -fx-font-weight: bold; }
 .monto-negativo { -fx-text-fill: -color-error; -fx-font-weight: bold; }
 
+/* Avisos propios, por encima del contenido sin bloquear la navegación. */
 .notificacion {
     -fx-background-color: -color-superficie;
     -fx-border-color: -color-exito;
@@ -295,3 +301,19 @@
 .dialogo-cinema { -fx-background-color: -color-superficie; -fx-padding: 18; }
 .dialogo-cinema .header-panel { -fx-background-color: -color-superficie; }
 .dialogo-cinema .button { -fx-background-color: -color-elevado; -fx-text-fill: -color-texto; -fx-padding: 10 20; -fx-background-radius: 8; }
+
+/* Acceso y administración: los formularios usan la misma paleta. */
+.tab-pane > .tab-header-area > .tab-header-background { -fx-background-color: -color-superficie; }
+.tab-pane .tab { -fx-background-color: -color-superficie; -fx-padding: 12 10; }
+.tab-pane .tab:selected { -fx-background-color: -color-elevado; }
+.tab-pane .tab .tab-label { -fx-text-fill: -color-suave; }
+.tab-pane .tab:selected .tab-label { -fx-text-fill: -color-acento; }
+.combo-box, .date-picker { -fx-background-color: -color-elevado; -fx-border-color: -color-borde; -fx-border-radius: 8; -fx-background-radius: 8; }
+.combo-box .list-cell, .combo-box-popup .list-cell { -fx-text-fill: -color-texto; -fx-background-color: -color-superficie; }
+.combo-box-popup .list-cell:hover { -fx-background-color: -color-elevado; }
+.text-area { -fx-text-fill: -color-texto; -fx-control-inner-background: -color-superficie; }
+.text-area .content { -fx-background-color: -color-superficie; }
+.check-box { -fx-text-fill: -color-texto; }
+.chart-plot-background { -fx-background-color: -color-superficie; }
+.axis { -fx-tick-label-fill: -color-suave; }
+.chart-bar { -fx-bar-fill: -color-acento; }

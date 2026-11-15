@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemauq.controller.PeliculasAdminController"
+            fitToWidth="true" styleClass="scroll-limpio">
+    <content>
+        <VBox spacing="14" minWidth="0">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+            <Label text="Películas" styleClass="titulo-vista"/>
+            <Label text="Deja la selección vacía para crear una película. Las nuevas películas usan el logo como imagen provisional." wrapText="true" styleClass="texto-secundario"/>
+            <VBox spacing="6">
+                <Label text="Película que deseas editar"/>
+                <ComboBox fx:id="pelicula" promptText="Seleccionar" maxWidth="Infinity"/>
+            </VBox>
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Título"/>
+                    <TextField fx:id="titulo"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS" minWidth="0">
+                    <Label text="Clasificación por edad"/>
+                    <ComboBox fx:id="edad" promptText="Seleccionar" maxWidth="Infinity"/>
+                </VBox>
+            </HBox>
+            <VBox spacing="6">
+                <Label text="Sinopsis"/>
+                <TextArea fx:id="sinopsis" prefRowCount="3" wrapText="true"/>
+            </VBox>
+            <HBox spacing="16">
+                <Button text="Guardar película" onAction="#guardarPelicula" styleClass="boton-primario"/>
+                <Button text="Nueva / limpiar" onAction="#limpiar" styleClass="boton-secundario"/>
+                <Button text="Eliminar película" onAction="#eliminar" styleClass="boton-secundario"/>
+            </HBox>
+        </VBox>
+    </content>
+</ScrollPane>

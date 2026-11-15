@@ -4,30 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MontoPuntos {
-    private List<LotePuntos> lotes;
+    private List<LotePuntos> lotes = new ArrayList<>();
 
-    public MontoPuntos() {
-        this.lotes = new ArrayList<>();
+    public void acumularPuntos(double monto) {
+        acumularPuntos(monto, "");
     }
 
-    public void acumularPuntos(double montoCompra) {
-        double puntosGanados = montoCompra * 0.10; // Calcula el 10%
+    public void acumularPuntos(double monto, String factura) {
+        if(monto > 0) {
+            lotes.add(new LotePuntos(monto * 0.10, factura));
+        }
+    }
 
-        if (puntosGanados > 0) {
-            LotePuntos nuevoLote = new LotePuntos(puntosGanados);
-            lotes.add(nuevoLote);
+    public void anularPorCompra(String factura){
+        for (LotePuntos lote : lotes) {
+            if(lote.getFactura().equals(factura)){
+                lote.anular();
+            }
         }
     }
 
     public double getTotalPuntosVigentes() {
-        // Limpiamos o ignoramos los que ya pasaron de 1 año
-        return lotes.stream()
-                .filter(lote -> !lote.estaVencido())
-                .mapToDouble(LotePuntos::getCantidad)
-                .sum();
+        double total = 0;
+        for (LotePuntos lote : lotes) {
+            if (!lote.estaVencido() && !lote.isAnulado()) total += lote.getCantidad();
+        }
+        return total;
     }
 
     public List<LotePuntos> getLotes() {
-        return lotes;
+        return new ArrayList<>(lotes);
     }
 }

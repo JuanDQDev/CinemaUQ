@@ -27,6 +27,7 @@ import javafx.scene.layout.VBox;
  */
 public class TarjetaController implements Controlador {
 
+    @FXML private Label lblSolicitudes;
     @FXML private Label lblNumero;
     @FXML private Label lblSaldo;
     @FXML private Label lblTitular;
@@ -40,12 +41,10 @@ public class TarjetaController implements Controlador {
     @FXML private TableColumn<MovimientoTarjeta, Number> colMonto;
     @FXML private TableColumn<MovimientoTarjeta, String> colSaldo;
 
-    private ContextoAplicacion contexto;
     private CinemaFacade fachada;
 
     @Override
     public void inicializar(ContextoAplicacion contexto) {
-        this.contexto = contexto;
         this.fachada = contexto.getFachada();
         configurarTabla();
         txtMonto.setOnAction(evento -> recargar());
@@ -81,6 +80,7 @@ public class TarjetaController implements Controlador {
             case COMPRA: return "Compra";
             case RECARGA: return "Recarga";
             case REEMBOLSO: return "Reembolso";
+            case BONO_BIENVENIDA: return "Bienvenida";
             default: return movimiento.getTipo().name();
         }
     }
@@ -101,7 +101,11 @@ public class TarjetaController implements Controlador {
         Collections.reverse(movimientos);
         tablaMovimientos.getItems().setAll(movimientos);
 
-        contexto.actualizarSaldo();
+        String texto = "Puntos disponibles: " + Math.round(fachada.getCliente().getMontoPuntos().getTotalPuntosVigentes());
+        for (com.example.cinemauq.model.SolicitudRecarga solicitud : fachada.getSolicitudes()) {
+            texto += " · " + Formato.moneda(solicitud.getMonto()) + ": " + solicitud.getEstado();
+        }
+        lblSolicitudes.setText(texto);
     }
 
     @FXML
@@ -117,39 +121,12 @@ public class TarjetaController implements Controlador {
             Alertas.error(new IllegalArgumentException("El monto de la recarga debe ser mayor que cero."));
             return;
         }
-        TextField txtAdministrador = new TextField();
-        txtAdministrador.setPromptText("Identificación del administrador");
-        PasswordField txtClave = new PasswordField();
-        txtClave.setPromptText("Clave del administrador");
-
-        VBox campos = new VBox(10);
-        campos.getChildren().addAll(
-                new Label("Identificación:"), txtAdministrador,
-                new Label("Clave:"), txtClave);
-
-        Alert autorizacion = new Alert(Alert.AlertType.CONFIRMATION);
-        autorizacion.setTitle("Autorización de recarga");
-        autorizacion.setHeaderText(
-                "El administrador debe autorizar " + Formato.moneda(monto));
-        autorizacion.getDialogPane().setContent(campos);
-
-        Alertas.prepararDialogo(autorizacion);
-        Optional<ButtonType> respuesta = autorizacion.showAndWait();
-        if (!respuesta.isPresent() || respuesta.get() != ButtonType.OK) {
-            return;
-        }
-
         try {
-            fachada.recargarTarjeta(monto,
-                    txtAdministrador.getText().trim(), txtClave.getText());
+            fachada.solicitarRecarga(monto);
             txtMonto.clear();
             refrescar();
-            Alertas.informacion("Recarga aprobada", "Se agregaron " + Formato.moneda(monto) + " a tu tarjeta.");
-        } catch (RuntimeException error) {
-            Alertas.error(error);
-        } finally {
-            txtClave.clear();
-        }
+            Alertas.informacion("Solicitud enviada", "El administrador podrá aprobarla desde Clientes y recargas.");
+        } catch (RuntimeException error) { Alertas.error(error); }
     }
 
     @FXML
