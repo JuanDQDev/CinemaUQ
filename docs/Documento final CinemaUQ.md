@@ -29,9 +29,18 @@ CinemaUQ gestiona un cine con dos perfiles.
   - aprueba o rechaza recargas;
   - genera reportes exportables y ve los reportes visuales.
 
-### Usuarios de prueba
+### Usuarios de prueba (acceso predeterminado)
 
-La aplicación arranca con datos de demostración (`service/DatosDemostracion`).
+La aplicación arranca con estas cuentas ya creadas (`service/DatosDemostracion`). En la pantalla de acceso se escribe la **identificación** (no un correo) y la **contraseña**, que distingue mayúsculas y minúsculas.
+
+**Acceso rápido**
+
+| Para entrar como | Identificación | Contraseña |
+|---|---|---|
+| **Administrador** | `admin` (también sirve `A01`) | `Admin123` |
+| **Cliente de demostración** | `1001` | `Demo123` |
+
+**Todas las cuentas predeterminadas**
 
 | Perfil | Identificación | Contraseña | Para probar |
 |---|---|---|---|
@@ -42,7 +51,9 @@ La aplicación arranca con datos de demostración (`service/DatosDemostracion`).
 | Cliente | `sara` | `Sara1234` | Solicitud de recarga aprobada |
 | Clientes | `valentina`, `camilo`, `daniela`, `gloria` | `Valentina123`, `Camilo123`, `Daniela123`, `Gloria123` | Historial de compras |
 
-Un cliente nuevo también se puede registrar desde la pantalla de acceso y recibe un bono de bienvenida de $50.000.
+Un cliente nuevo también se puede registrar desde la pantalla de acceso (*Crear mi cuenta*): identificación de 3 a 30 letras o números, contraseña de al menos 6 caracteres. Recibe un bono de bienvenida de $50.000.
+
+Las cuentas `ana` / `Clave123` y `bob` / `Clave456` solo existen dentro de las pruebas JUnit; no aparecen en la aplicación.
 
 ### Cómo ejecutar
 
@@ -500,6 +511,8 @@ Las compras se generan con una semilla fija, así que siempre salen iguales. `Pu
 
 ## 11. Pruebas JUnit (53)
 
+Las 53 pruebas pasan. Cada prueba arma sus propios datos, así que se pueden ejecutar en cualquier orden. El detalle de cada una (datos de entrada y resultado esperado) está en el **Anexo A**.
+
 | Clase | Pruebas | Qué cubre |
 |---|---|---|
 | `ConsecutivoFacturaTest` | 2 | Singleton |
@@ -549,3 +562,99 @@ El diagrama completo está en [`Diagrama de clases CinemaUQ Entrega 3.pdf`](Diag
 - Los principios SOLID se ven en el código: cálculo separado de la vista, extensiones sin modificar clases existentes, interfaces pequeñas y dependencias hacia abstracciones.
 - Las 53 pruebas JUnit verifican las reglas de negocio, incluidas las de los patrones de comportamiento.
 
+## Anexo A. Pruebas JUnit: datos y resultados esperados
+
+### A.1 Datos comunes
+
+Los precios salen del tarifario inicial: entrada base $18.000, recargo 3D $4.000 y recargo IMAX $7.000. La función F-001 es *Titanic* en la sala 3 (IMAX 3D, 5 × 8 = 40 asientos), así que cada entrada cuesta **$29.000**. Las palomitas grandes cuestan $12.000.
+
+| Datos | Los usan | Contenido |
+|---|---|---|
+| `new SistemaCinema()` | `SistemaCinemaTest`, `PuntosYReportesTest` | Catálogo base sin clientes: 3 películas (*Titanic* +12, *Spider-man: Brand New Day* +15, *Avengers Doomsday* +15), 3 salas (2D 6×10, 3D 6×10, IMAX 3D 5×8), funciones F-001 a F-004 dentro de 2 y 3 días, 3 productos y 2 combos |
+| Cliente `ana` | Las mismas | Contraseña `Clave123`, 22 años, bono de $50.000 |
+| Cliente `bob` | `SistemaCinemaTest` | Contraseña `Clave456`, 23 años, bono de $50.000 |
+| Administrador | Las mismas | `A01` / `Admin123` |
+| `CinemaFacade.crearDemostracion()` | `CompraTarjetaVirtualTest` | Catálogo base y cliente `1001` / `Demo123` (22 años) con saldo de $150.000 (bono de $50.000 y recarga de $100.000) |
+| `SistemaCinema.conDatosDemostracion()` | `PuntosYReportesTest` | Los datos iniciales completos de la aplicación (sección 9) |
+| Objetos propios | Pruebas del paquete `model` | Cada prueba crea su sala, película o tarjeta |
+
+### A.2 Patrones creacionales
+
+| Prueba | Datos de entrada | Resultado esperado |
+|---|---|---|
+| **`ConsecutivoFacturaTest`** · Singleton | | |
+| `siempreSeObtieneLaMismaInstancia` | Dos llamadas a `getInstance()` | Es el mismo objeto |
+| `cp11LosConsecutivosNoSeRepiten` | Dos consecutivos seguidos | Empiezan por `FAC-` y el segundo es el primero + 1 |
+| **`FuncionBuilderTest`** · Builder | F-001, 09/10/2026 19:00, "Español", sala 2D 8×12, película P01 +7 | |
+| `construyeUnaFuncionConTodosLosDatos` | Los 5 datos completos | La función conserva id, fecha, idioma, sala y película |
+| `cp01CrearFuncionSinSalaSeRechaza` | Sala `null` | `IllegalStateException` |
+| `crearFuncionSinPeliculaSeRechaza` | Película `null` | `IllegalStateException` |
+| `crearFuncionSinFechaSeRechaza` | Fecha `null` | `IllegalStateException` |
+| **`SalaPrototypeTest`** · Prototype | Plantilla: sala 1, 2D, 8 filas × 12 columnas (96 asientos) | |
+| `elClonEsUnaCopiaProfunda` | `plantilla.clonar()` | Objeto distinto; los 96 asientos son objetos distintos con el mismo código |
+| `ocuparEnUnaFuncionNoAfectaOtraFuncionDeLaMismaSala` | Dos clones; se ocupa D4 en el primero | D4 ocupado solo en el primero; libre en el segundo y en la plantilla |
+| `ocuparDosVecesElMismoAsientoLanzaError` | Ocupar D4 dos veces | `IllegalStateException` la segunda vez |
+| `capacidadYDisponibles` | Se ocupan A1 y H12 | Capacidad 96, disponibles 94 |
+| `cadaFuncionRecibeSuPropiaCopiaDeLaSala` | Función F-001 con `plantilla.clonar()`; se ocupa D4 | D4 ocupado en la función y libre en la plantilla |
+
+### A.3 Carrito, compra y Observer
+
+| Prueba | Datos de entrada | Resultado esperado |
+|---|---|---|
+| **`CarritoCompraTest`** | Película P01 +7; funciones en sala 2D 5×8 para mañana | |
+| `alternarAsientoLoAgregaYLoQuita` | D4 dos veces | La primera lo agrega; la segunda lo quita y el carrito queda sin asientos |
+| `cambiarDeFuncionDescartaLosAsientos` | A1 en F-1; luego se elige F-2 | El carrito queda sin asientos |
+| `cuentaUnidadesDeCadaProducto` | Gaseosa $7.000: agregar 2, quitar 1 | Queda 1 unidad |
+| `vaciarDejaElCarritoSinDatos` | F-1, A1 y nachos $11.000; luego vaciar | Sin función, asientos ni productos |
+| **`CompraTarjetaVirtualTest`** · Facade y Adapter | Cliente `1001`, saldo $150.000, función F-001 ($29.000) | |
+| `compraDescuentaSaldoYRegistraMovimiento` | D4 y D5 con palomitas: total $70.000 | Saldo $80.000; último movimiento COMPRA de -$70.000 con la factura; D4 ocupado |
+| `saldoInsuficienteRechazaLaCompraSinCambiarElSaldo` | 24 asientos (A1 a C8): $696.000 | `SaldoInsuficienteException`; el saldo no cambia y A1 sigue libre |
+| `tarjetaInactivaNoPermitePagar` | Tarjeta bloqueada; asiento A1 | `TarjetaInactivaException` |
+| `asientoYaVendidoNoSePuedeComprarOtraVez` | E4 comprado dos veces | `AsientoOcupadoException` la segunda vez |
+| `recargaAutorizadaSumaSaldoYQuedaRegistrada` | Cliente nuevo ($50.000); el administrador recarga $50.000 | Saldo $100.000; último movimiento RECARGA |
+| `guardaEnHistorialCualquierElementoQueCumplaElContrato` | A1 con un "Helado" de $6.500 creado en la prueba | La compra guarda "Helado" a $6.500; total $35.500 (Liskov) |
+| **`ObservadorSaldoTest`** · Observer | Tarjeta TV-Prueba con un observador registrado dos veces | |
+| `tarjetaAvisaDespuesDeRegistrarElMovimientoYDejaDeAvisarAlRetirarse` | Bono $50.000; compra $11.000; reembolso $8.800; segundo reembolso; se retira el observador; recarga $10.000 | Avisos 50.000, 39.000 y 47.800 (uno por movimiento, sin duplicados); el segundo reembolso se rechaza; la recarga no avisa; saldo final $57.800 |
+
+### A.4 Sesión, administración, State y Strategy (`SistemaCinemaTest`)
+
+Datos: `new SistemaCinema()` con `ana` y `bob`. Cada compra es una entrada de F-001 a $29.000, salvo que se indique otra cosa.
+
+| Prueba | Datos de entrada | Resultado esperado |
+|---|---|---|
+| `cadaCuentaRecibeSuBonoUnaVez` | `ana` y `bob` recién creados; registros repetidos e inválidos | Cada uno con $50.000 en su propia tarjeta. Se rechazan: un segundo bono, "ANA" (repetida), "admin" (reservada) y la clave "123" (muy corta) |
+| `credencialesInvalidasNoCreanSesion` | `ana` / "erronea"; `A01` / "incorrecta" | No queda sesión abierta; no se puede crear la fachada |
+| `cerrarSesionRevocaFachadaYNoBorraDatos` | `ana` compra A1 y cierra sesión | La fachada vieja lanza `SecurityException`; al volver a entrar conserva saldo y compra |
+| `comprasSaldoPuntosYMovimientosNoSeComparten` | `ana` compra A1; entra `bob` | `bob` no ve compras ajenas, tiene $50.000, 1 movimiento y 0 puntos; no puede cancelar la compra de `ana` |
+| `asientoSeComparteParaImpedirDobleVenta` | `ana` compra A1; `bob` intenta A1 | Se rechaza; `bob` conserva $50.000 |
+| `clienteNoPuedeEjecutarOperacionesAdministrativas` | Sesión de `ana` | `SecurityException` en clientes, compras, tarifas, recargas, cancelar función, productos y promociones |
+| `cancelacionReembolsaUnaVezLiberaAsientosYAnulaPuntos` | `ana` compra A1 y cancela (faltan más de 24 h) | Reembolso $29.000 (100 %); saldo $50.000; compra cancelada; 0 puntos; A1 libre; una segunda cancelación o reembolso se rechaza; 3 movimientos |
+| `tarjetaBloqueadaSiRecibeSuReembolso` | Compra A1, se bloquea la tarjeta y se cancela | El reembolso entra igual (saldo $50.000) y la tarjeta sigue bloqueada |
+| `plazosExactosUsanStateYStrategy` | Compra A1; horas antes de la función: 24 h + 1 ns, 24 h, 2 h, 2 h - 1 ns | 100 %, 80 % ($23.200), 80 %; con menos de 2 h se rechaza sin tocar el saldo; con 2 h exactas devuelve $23.200 |
+| `noCancelaSiElMontoConfirmadoNoCoincide` | Cancelar confirmando $28.999 | Se rechaza; la compra sigue confirmada |
+| `cineCancelaFuncionAlCienInclusoDentroDeDosHoras` | Función nueva en 1 hora; `ana` compra A1 y `bob` A2 | El cliente no puede cancelar; el cine sí: 2 compras canceladas, ambos con $50.000, la función desaparece de la cartelera y no se puede comprar ni cancelar otra vez |
+| `cancelarFuncionNoDuplicaReembolsoDeCompraYaCancelada` | `ana` cancela su compra; `bob` compra; el cine cancela la función | Solo se cancela la compra de `bob`; `ana` no recibe un segundo reembolso (3 movimientos) |
+| `solicitudesSonPropiasYSeApruebanUnaSolaVez` | `ana` pide $20.000; se aprueba. Luego pide $10.000; se rechaza | El saldo pasa a $70.000 solo al aprobar; `bob` no ve la solicitud; no se aprueba dos veces; el rechazo no suma |
+| `editarTarifasYProductosNoCambiaComprasAnteriores` | Compra con palomitas; luego tarifas 25.000/5.000/8.000 y producto renombrado a $15.000 | La compra anterior conserva total, nombre y precio; una entrada nueva cuesta $38.000 |
+| `promoMayorVigenteSeAplicaYCompraGratisSeCancela` | Promociones: vencida 90 %, inactiva 99 %, 10 % y 20 % vigentes; luego una de 100 % | Se aplica la mayor vigente (20 %): $23.200. Con 100 % la compra cuesta $0 y se puede cancelar |
+| `administrarCatalogoYDistribucionPreservaFuncionesVendidas` | Sala 3 pasa a IMAX 4×6; producto "Helado" $6.000 y combo al 10 %; película nueva | La sala nueva tiene 24 asientos y la función vendida conserva 40; no se edita ni elimina una función con ventas; combo $5.400; no se elimina un producto que está en un combo |
+| `reporteSeparaRecargaBonoVentaYReembolso` | Compra y cancelación de $29.000; recarga de $10.000 | Ventas $29.000, reembolsos $29.000, recargas $10.000 (sin contar el bono), 1 cancelación |
+| `nuevaInstanciaNoConservaCuentas` | `new SistemaCinema()` | No existe `ana`; no hay clientes |
+
+### A.5 Puntos, reportes y datos iniciales (`PuntosYReportesTest`)
+
+| Prueba | Datos de entrada | Resultado esperado |
+|---|---|---|
+| `seRedimenPrimeroLosPuntosMasProximosAVencer` | Lote de 10.000 puntos (hace 1 mes) y lote de 5.000 (hace 10 meses); se redimen 6.000 | El lote viejo queda en 0 y el nuevo en 9.000; quedan 9.000 redimibles |
+| `losPuntosVencidosNoSePuedenUsar` | 10.000 puntos de hace 13 meses y 2.000 de ayer | Solo 2.000 redimibles; pedir 2.001 lanza `PuntosInsuficientesException` sin descontar nada |
+| `pagarUnaEntradaConPuntosDescuentaPuntosYCobraElResto` | `ana` con 40.000 puntos compra A1 y A2 y paga una entrada con puntos | Cobra $29.000 a la tarjeta y redime 29.000 puntos; quedan 13.900 (40.000 - 29.000 + 2.900 ganados) |
+| `sinPuntosSuficientesNoSeCompraNiSeCobra` | `ana` sin puntos intenta pagar una entrada con puntos | `PuntosInsuficientesException`; saldo, compras y asiento A1 sin cambios |
+| `soloSeRedimeLoQueEstaEnElCarrito` | 1 entrada, pero se piden 2 con puntos; un producto que no está en el carrito | Ambas se rechazan |
+| `cancelarDevuelveLosPuntosUsadosYAnulaLosGanados` | Compra con 1 entrada en puntos y luego se cancela | Vuelven los 40.000 puntos; la redención queda marcada como devuelta |
+| `laPromocionValidaSeGuardaYLaInvalidaSeRechaza` | Promoción 20 %; otra de 0 %; otra con fechas invertidas | Se guarda solo la primera |
+| `lasEstadisticasSeCalculanEnElModeloYEntreganMapas` | `ana` compra A1 con palomitas; periodo de 8 días | 1 compra, 1 entrada, ingresos = total; `Titanic` → 1 entrada; 8 días en ventas por día; 4 funciones con ocupación (F-001 al 2,5 %) |
+| `cadaReporteTieneTituloFechaPeriodoRegistrosYTotales` | Una compra; los 8 tipos de reporte | Cada texto tiene título, fecha de generación, periodo, registros encontrados y totales; un periodo invertido se rechaza |
+| `elExportadorEscribeElArchivoDeTexto` | Reporte de ventas del día a un archivo temporal | El archivo contiene "VENTAS REALIZADAS POR PERIODO" y "Ventas brutas: $29.000" |
+| `losReportesSonSoloParaElAdministrador` | Sesión de `ana` pide un reporte | `SecurityException` |
+| `losDatosDeDemostracionSonSuficientesParaCadaReporte` | `SistemaCinema.conDatosDemostracion()` | 6 películas, 4 salas, 8 clientes, al menos 20 funciones y 50 compras; ningún reporte de los últimos 30 días vacío; hay puntos vencidos, compras con puntos, una cancelación al 80 % y una por el cine; movimientos en orden de fecha |
+| `losUsuariosDePruebaDocumentadosPuedenEntrar` | Las 8 cuentas de cliente y la del administrador | Todas inician sesión; el cliente `1001` tiene al menos $200.000 |
