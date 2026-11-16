@@ -1,0 +1,50 @@
+CINEMAUQ
+RESUMEN ESTADÍSTICO DEL PERIODO
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 34
+
+Indicador         | Detalle                                         | Valor
+---------------------------------------------------------------------------
+Entradas vendidas | Spider-man: Brand New Day                       | 35
+Entradas vendidas | Avengers Doomsday                               | 31
+Entradas vendidas | Echoes                                          | 32
+Entradas vendidas | Beyond Horizons                                 | 20
+Entradas vendidas | Future We Build                                 | 18
+Entradas vendidas | Titanic                                         | 20
+Ingresos brutos   | Spider-man: Brand New Day                       | $1.014.100
+Ingresos brutos   | Avengers Doomsday                               | $763.600
+Ingresos brutos   | Echoes                                          | $767.200
+Ingresos brutos   | Beyond Horizons                                 | $600.600
+Ingresos brutos   | Future We Build                                 | $650.400
+Ingresos brutos   | Titanic                                         | $523.600
+Ocupación         | F-009 · Titanic · 17/10 15:00                   | 20,0 %
+Ocupación         | F-010 · Spider-man: Brand New Day · 19/10 18:30 | 8,3 %
+Ocupación         | F-011 · Avengers Doomsday · 21/10 20:00         | 27,5 %
+Ocupación         | F-012 · Beyond Horizons · 23/10 21:30           | 15,0 %
+Ocupación         | F-013 · Echoes · 25/10 15:00                    | 30,0 %
+Ocupación         | F-014 · Future We Build · 27/10 18:30           | 10,0 %
+Ocupación         | F-015 · Titanic · 29/10 20:00                   | 17,5 %
+Ocupación         | F-016 · Spider-man: Brand New Day · 31/10 21:30 | 40,0 %
+Ocupación         | F-017 · Avengers Doomsday · 02/11 15:00         | 13,3 %
+Ocupación         | F-018 · Beyond Horizons · 04/11 18:30           | 15,0 %
+Ocupación         | F-019 · Echoes · 06/11 20:00                    | 22,5 %
+Ocupación         | F-020 · Future We Build · 08/11 21:30           | 30,0 %
+Ocupación         | F-021 · Titanic · 10/11 15:00                   | 16,7 %
+Ocupación         | F-022 · Spider-man: Brand New Day · 12/11 18:30 | 28,3 %
+Ocupación         | F-023 · Avengers Doomsday · 14/11 20:00         | 30,0 %
+Ocupación         | F-008 · Titanic · 16/11 18:24                   | 7,5 %
+Ocupación         | F-001 · Titanic · 17/11 18:00                   | 0,0 %
+Ocupación         | F-005 · Beyond Horizons · 17/11 19:00           | 12,5 %
+Ocupación         | F-002 · Titanic · 17/11 21:00                   | 0,0 %
+Ocupación         | F-003 · Spider-man: Brand New Day · 18/11 18:00 | 0,0 %
+Ocupación         | F-004 · Avengers Doomsday · 18/11 20:00         | 0,0 %
+Ocupación         | F-006 · Echoes · 18/11 22:00                    | 12,5 %
+
+TOTALES
+Compras del periodo: 65
+Entradas vendidas: 156
+Ingresos brutos: $4.319.500
+Reembolsos: $206.900
+Ingresos menos reembolsos: $4.112.600
+Ocupación promedio: 15,5 %

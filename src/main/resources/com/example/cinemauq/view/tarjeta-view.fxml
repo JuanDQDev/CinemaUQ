@@ -56,7 +56,10 @@
         </VBox>
     </HBox>
 
-    <Label fx:id="lblSolicitudes" wrapText="true" styleClass="texto-secundario"/>
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Label fx:id="lblSolicitudes" wrapText="true" styleClass="texto-secundario" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button text="Ver mis puntos" onAction="#verPuntos" styleClass="boton-secundario" minWidth="-Infinity"/>
+    </HBox>
     <VBox spacing="8" styleClass="tarjeta" VBox.vgrow="ALWAYS">
         <Label text="Movimientos" styleClass="titulo-seccion"/>
         <TableView fx:id="tablaMovimientos" VBox.vgrow="ALWAYS" prefHeight="360" minHeight="300">

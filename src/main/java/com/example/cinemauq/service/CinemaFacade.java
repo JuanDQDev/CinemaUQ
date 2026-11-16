@@ -57,12 +57,30 @@ public class CinemaFacade {
     }
 
     public Compra confirmarCompra(Funcion funcion, List<String> asientos, List<ElementoProducto> productos) {
+        return confirmarCompra(funcion, asientos, productos, 0, new ArrayList<>());
+    }
+
+    /** Compra pagando con puntos algunas entradas o productos del carrito (1 punto = $1). */
+    public Compra confirmarCompra(Funcion funcion, List<String> asientos, List<ElementoProducto> productos,
+                                  int entradasConPuntos, List<ElementoProducto> productosConPuntos) {
         Cliente cliente = getCliente();
         sistema.validarCarrito(funcion, productos);
         Compra compra = sistema.getServicio().comprar(cliente, funcion, asientos, productos,
-                new AdaptadorTarjetaVirtual(cliente.getTarjeta()));
+                new AdaptadorTarjetaVirtual(cliente.getTarjeta()),
+                entradasConPuntos, productosConPuntos, LocalDateTime.now());
         sistema.agregarCompra(compra);
         return compra;
+    }
+
+    /** Puntos vigentes que el cliente puede redimir en este momento. */
+    public int getPuntosDisponibles() {
+        return getCliente().getMontoPuntos().getPuntosRedimibles(LocalDateTime.now());
+    }
+
+    /** Puntos que cuesta la selección (entradas y productos completos). */
+    public int calcularValorPuntos(Funcion funcion, int entradasConPuntos, List<ElementoProducto> productosConPuntos) {
+        getCliente();
+        return sistema.getServicio().calcularValorPuntos(funcion, entradasConPuntos, productosConPuntos);
     }
 
     public int calcularReembolso(Compra compra) {

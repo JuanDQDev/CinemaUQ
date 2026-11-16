@@ -1,0 +1,30 @@
+CINEMAUQ
+RECARGAS REALIZADAS
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 17
+
+Fecha            | Cliente                 | Tarjeta      | Detalle                                         | Monto
+-------------------------------------------------------------------------------------------------------------------
+08/11/2026 13:30 | Cliente de demostración | TV-1001      | Recarga autorizada por: Administración CinemaUQ | $194.000
+15/11/2026 01:00 | Cliente de demostración | TV-1001      | Recarga autorizada por: Administración CinemaUQ | $196.100
+15/11/2026 22:24 | Cliente de demostración | TV-1001      | Recarga autorizada por: Administración CinemaUQ | $27.600
+20/10/2026 09:30 | Laura Gómez             | TV-laura     | Recarga autorizada por: Administración CinemaUQ | $216.000
+09/11/2026 10:30 | Laura Gómez             | TV-laura     | Recarga autorizada por: Administración CinemaUQ | $238.000
+14/11/2026 16:07 | Laura Gómez             | TV-laura     | Recarga autorizada por: Administración CinemaUQ | $204.000
+13/11/2026 16:30 | Mateo Ríos              | TV-mateo     | Recarga autorizada por: Administración CinemaUQ | $259.500
+15/11/2026 22:24 | Sara Cardona            | TV-sara      | Recarga autorizada por: Administración CinemaUQ | $80.000
+22/10/2026 12:30 | Valentina Ospina        | TV-valentina | Recarga autorizada por: Administración CinemaUQ | $238.000
+01/11/2026 15:30 | Valentina Ospina        | TV-valentina | Recarga autorizada por: Administración CinemaUQ | $234.000
+27/10/2026 18:00 | Camilo Herrera          | TV-camilo    | Recarga autorizada por: Administración CinemaUQ | $302.500
+31/10/2026 14:00 | Camilo Herrera          | TV-camilo    | Recarga autorizada por: Administración CinemaUQ | $210.600
+08/11/2026 15:00 | Camilo Herrera          | TV-camilo    | Recarga autorizada por: Administración CinemaUQ | $247.500
+27/10/2026 16:00 | Daniela Pérez           | TV-daniela   | Recarga autorizada por: Administración CinemaUQ | $225.100
+02/11/2026 14:00 | Daniela Pérez           | TV-daniela   | Recarga autorizada por: Administración CinemaUQ | $219.000
+15/11/2026 00:10 | Daniela Pérez           | TV-daniela   | Recarga autorizada por: Administración CinemaUQ | $228.100
+04/11/2026 19:00 | Gloria Marín            | TV-gloria    | Recarga autorizada por: Administración CinemaUQ | $277.000
+
+TOTALES
+Recargas: 17
+Total recargado (sin bonos): $3.597.000
+Solicitudes pendientes hoy: 1

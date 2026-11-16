@@ -10,6 +10,6 @@ public class CinemaUQApplication extends Application {
 
     @Override
     public void start(Stage ventana) {
-        new NavegadorSesion(ventana, new SistemaCinema()).iniciar();
+        new NavegadorSesion(ventana, SistemaCinema.conDatosDemostracion()).iniciar();
     }
 }

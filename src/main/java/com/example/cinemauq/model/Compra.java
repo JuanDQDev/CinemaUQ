@@ -17,7 +17,8 @@ public class Compra { // La usaremos como Context de state para guardar los esta
     private final int total;
     private final String fecha;
     private EstadoCompra estado;
-    private final LocalDateTime fechaCompra = LocalDateTime.now();
+    private final LocalDateTime fechaCompra;
+    private final int puntosRedimidos;
     private LocalDateTime fechaCancelacion;
     private int reembolso;
     private String motivoCancelacion = "";
@@ -26,6 +27,21 @@ public class Compra { // La usaremos como Context de state para guardar los esta
 
     public Compra(String factura, Cliente cliente, Funcion funcion, List<String> asientos,
                   List<ElementoProducto> confiteria, int total) {
+        this(factura, cliente, funcion, asientos, confiteria, total, 0, LocalDateTime.now());
+    }
+
+    /**
+     * @param total           lo que se pagó con la tarjeta (ya sin lo cubierto con puntos)
+     * @param puntosRedimidos puntos usados en esta compra (1 punto = $1)
+     * @param fechaCompra     momento de la compra; los reportes filtran por esta fecha
+     */
+    public Compra(String factura, Cliente cliente, Funcion funcion, List<String> asientos,
+                  List<ElementoProducto> confiteria, int total, int puntosRedimidos, LocalDateTime fechaCompra) {
+        if (fechaCompra == null || puntosRedimidos < 0) {
+            throw new IllegalArgumentException("La compra requiere su fecha y puntos válidos");
+        }
+        this.fechaCompra = fechaCompra;
+        this.puntosRedimidos = puntosRedimidos;
         this.factura = factura;
         this.cliente = cliente;
         this.funcion = funcion;
@@ -35,7 +51,7 @@ public class Compra { // La usaremos como Context de state para guardar los esta
         this.nombrePelicula = funcion.getPeliculaFuncion().getNombrePelicula();
         this.detalleFuncion = funcion.toString();
         this.total = total;
-        this.fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
+        this.fecha = fechaCompra.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         this.estado = new CompraConfirmada();
     }
 
@@ -52,7 +68,8 @@ public class Compra { // La usaremos como Context de state para guardar los esta
             throw new IllegalArgumentException("Reembolso invalido");
         }
         if (porCine) {
-            estado = estado.cancelar(this, hora);
+            // El cine puede cancelar aunque falten menos de dos horas (reembolso del 100 %).
+            estado = estado.cancelarPorCine();
         } else {
             estado = estado.cancelar(this, hora);
         }
@@ -63,6 +80,7 @@ public class Compra { // La usaremos como Context de state para guardar los esta
 
     public boolean estaCancelada() { return estado.estaCancelada(); }
     public int getReembolso() { return reembolso; }
+    public int getPuntosRedimidos() { return puntosRedimidos; }
     public LocalDateTime getFechaCompra() { return fechaCompra; }
     public LocalDateTime getFechaCancelacion() { return fechaCancelacion; }
     public String getMotivoCancelacion() { return motivoCancelacion; }

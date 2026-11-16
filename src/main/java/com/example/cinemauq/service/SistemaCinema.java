@@ -61,6 +61,37 @@ public class SistemaCinema {
         confiteria.add(new Combo("Combo familiar (-15 %)", 0.15, familiar));
     }
 
+    /**
+     * Cine con datos de demostración: clientes, historial de compras, recargas,
+     * cancelaciones y puntos. Lo usa la aplicación al arrancar para que los
+     * reportes y los gráficos tengan información (ver DatosDemostracion).
+     */
+    public static SistemaCinema conDatosDemostracion() {
+        SistemaCinema sistema = new SistemaCinema();
+        DatosDemostracion.cargar(sistema, LocalDateTime.now());
+        return sistema;
+    }
+
+    // ---- Operaciones internas para los datos de demostración (solo este paquete) ----
+
+    Cliente registrarConFecha(String id, String nombre, int edad, String clave, LocalDateTime fecha) {
+        return sesiones.registrar(id, nombre, edad, clave, fecha);
+    }
+
+    /** Función que ya ocurrió: solo sirve como historial para reportes y estadísticas. */
+    Funcion agregarFuncionHistorica(Pelicula pelicula, Sala sala, LocalDateTime fecha, String idioma) {
+        Funcion funcion = new Funcion.Builder().conIdFuncion("F-" + String.format("%03d", siguienteFuncion))
+                .conFechaHora(fecha).conIdioma(idioma).conPelicula(pelicula).conSala(sala.clonar()).build();
+        siguienteFuncion++;
+        funciones.add(funcion);
+        return funcion;
+    }
+
+    void recargarConFecha(Cliente cliente, int monto, LocalDateTime fecha) {
+        validarMonto(monto);
+        cliente.getTarjeta().recargar(sesiones.administradorActual(), monto, fecha);
+    }
+
     public Cliente registrar(String id, String nombre, int edad, String clave) {
         return sesiones.registrar(id, nombre, edad, clave);
     }

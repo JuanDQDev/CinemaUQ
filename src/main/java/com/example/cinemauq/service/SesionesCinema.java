@@ -3,6 +3,7 @@ package com.example.cinemauq.service;
 import com.example.cinemauq.model.Administrador;
 import com.example.cinemauq.model.Cliente;
 import com.example.cinemauq.model.CuentaCliente;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,11 @@ final class SesionesCinema {
     private long versionSesion;
 
     Cliente registrar(String id, String nombre, int edad, String clave) {
+        return registrar(id, nombre, edad, clave, LocalDateTime.now());
+    }
+
+    /** Registro con fecha: los datos de demostración crean clientes antiguos. */
+    Cliente registrar(String id, String nombre, int edad, String clave, LocalDateTime fecha) {
         if (id == null || !id.trim().matches("[A-Za-z0-9_-]{3,30}")
                 || nombre == null || nombre.trim().length() < 2 || edad < 1 || edad > 120) {
             throw new IllegalArgumentException("Revisa identificación (3 a 30 letras o números), nombre y edad (1 a 120)");
@@ -31,7 +37,7 @@ final class SesionesCinema {
         }
         Cliente cliente = new Cliente(id, nombre.trim(), edad);
         CuentaCliente cuenta = new CuentaCliente(cliente, clave);
-        cliente.getTarjeta().otorgarBonoBienvenida();
+        cliente.getTarjeta().otorgarBonoBienvenida(fecha);
         cuentas.add(cuenta);
         return cliente;
     }

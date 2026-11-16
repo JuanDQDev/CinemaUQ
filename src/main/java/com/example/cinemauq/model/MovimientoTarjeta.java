@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MovimientoTarjeta {
-    private final LocalDateTime fechaReal = LocalDateTime.now();
+    private final LocalDateTime fechaReal;
     private final String fechaHora;
     private final TipoMovimiento tipo;
     private final int monto;
@@ -14,7 +14,13 @@ public class MovimientoTarjeta {
     private final String descripcion;
 
     public MovimientoTarjeta(TipoMovimiento tipo, int monto, int saldoFinal, String descripcion) {
-        this.fechaHora = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
+        this(tipo, monto, saldoFinal, descripcion, LocalDateTime.now());
+    }
+
+    public MovimientoTarjeta(TipoMovimiento tipo, int monto, int saldoFinal, String descripcion, LocalDateTime fecha) {
+        if (fecha == null) throw new IllegalArgumentException("El movimiento requiere su fecha");
+        this.fechaReal = fecha;
+        this.fechaHora = fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         this.tipo = tipo;
         this.monto = monto;
         this.saldoFinal = saldoFinal;
