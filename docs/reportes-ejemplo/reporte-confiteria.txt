@@ -1,0 +1,18 @@
+CINEMAUQ
+PRODUCTOS Y COMBOS VENDIDOS
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 6
+
+Producto o combo       | Unidades | Valor
+-----------------------------------------
+Combo familiar (-15 %) | 16       | $408.000
+Nachos                 | 12       | $132.000
+Agua                   | 9        | $36.000
+Combo clásico (-10 %)  | 8        | $136.800
+Gaseosa                | 12       | $84.000
+Palomitas grandes      | 8        | $96.000
+
+TOTALES
+Unidades vendidas: 65
+Valor de lista (antes de promociones): $892.800

@@ -22,22 +22,45 @@ Sistema de gestión de cine en **Java + JavaFX** (Maven), proyecto final de Prog
 | Patrones estructurales | Composite (`ElementoProducto`, `Producto`, `Combo`), Decorator (`Entrada`, `EntradaDecorator`…), Adapter (`MedioPago`, `AdaptadorTarjetaVirtual`), Facade (`CinemaFacade`) |
 | Excepciones propias del dominio | paquete `exception` |
 
+## Entrega 3 (final)
+
+| Entregable | Ubicación |
+|---|---|
+| **Documento final:** 10 patrones, SOLID con evidencia, política de reembolso, puntos y usuarios de prueba | [`PDF`](docs/Documento%20final%20CinemaUQ.pdf) · [`.md`](docs/Documento%20final%20CinemaUQ.md) |
+| **Diagrama de clases (PDF)** | [`docs/Diagrama de clases CinemaUQ Entrega 3.pdf`](docs/Diagrama%20de%20clases%20CinemaUQ%20Entrega%203.pdf) · editable en `.drawio` |
+| Patrones de comportamiento | Observer (`ObservadorSaldo`), Strategy (`IPoliticaReembolso`), State (`EstadoCompra`) |
+| Puntos con vigencia y redención | `MontoPuntos`, `LotePuntos`, `RedencionPuntos` |
+| Cancelación y reembolso | `ServicioCompra`, `Compra` y sus estados |
+| Reportes exportables (.txt) | `ServicioReportes`, `ExportadorReporte`, `ExportadorReporteTxt` · ejemplos en [`docs/reportes-ejemplo`](docs/reportes-ejemplo) |
+| Reportes visuales (barras, pastel, líneas) y estadísticas | `EstadisticasCine`, `ReportesAdminController` |
+| Datos iniciales | `DatosDemostracion` |
+| Taller de integración de patrones | [`docs/Taller integracion de patrones.md`](docs/Taller%20integracion%20de%20patrones.md) |
+
+### Usuarios de prueba
+
+| Perfil | Identificación | Contraseña |
+|---|---|---|
+| Administrador | `A01` (o `admin`) | `Admin123` |
+| Cliente de demostración | `1001` | `Demo123` |
+| Otros clientes | `laura`, `mateo`, `sara` | `Laura123`, `Mateo123`, `Sara1234` |
+
+La lista completa está en el documento final.
+
 ## Estructura
 
 ```
 src/main/java/com/example/cinemauq/
 ├── CinemaUQApplication, Launcher   arranque de JavaFX
 ├── controller/   controladores de las vistas (MVC)
-├── model/        clases del dominio y patrones creacionales/estructurales
-├── service/      ServicioCompra, CinemaFacade, MedioPago y su adaptador
+├── model/        dominio, patrones y EstadisticasCine
+├── service/      SistemaCinema, CinemaFacade, ServicioCompra, ServicioReportes,
+│                 exportadores, DatosDemostracion, MedioPago y su adaptador
 └── exception/    excepciones del dominio
 src/main/resources/com/example/cinemauq/
-├── view/         vistas FXML
+├── view/         vistas FXML (view/admin: panel del administrador)
 └── css/          estilos
-src/test/java/com/example/cinemauq/
-├── model/        Singleton, Builder, Prototype y carrito
-└── service/      compra con tarjeta virtual
-docs/             análisis, diagramas, fichas de patrones e interfaz
+src/test/java/com/example/cinemauq/   53 pruebas JUnit
+docs/             documento final, diagramas, fichas de patrones y capturas
 ```
 
 ## Cómo ejecutar

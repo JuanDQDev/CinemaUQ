@@ -1,0 +1,23 @@
+CINEMAUQ
+PUNTOS ACUMULADOS Y REDIMIDOS
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 8
+
+Cliente                 | Acumulados | Redimidos | Vigentes hoy | Vencidos sin usar
+-----------------------------------------------------------------------------------
+Cliente de demostración | 45170      | 0         | 51770        | 0
+Laura Gómez             | 48400      | 29000     | 34000        | 6100
+Mateo Ríos              | 40650      | 0         | 40650        | 0
+Sara Cardona            | 17800      | 0         | 26550        | 0
+Valentina Ospina        | 60010      | 47000     | 19960        | 0
+Camilo Herrera          | 75020      | 0         | 78530        | 7860
+Daniela Pérez           | 72920      | 0         | 84670        | 0
+Gloria Marín            | 50710      | 36000     | 19510        | 0
+
+TOTALES
+Puntos acumulados en el periodo: 410680
+Puntos redimidos en el periodo: 112000
+Puntos vigentes hoy: 355640
+Puntos vencidos sin usar: 13960
+Regla: 10 % de lo pagado · 1 punto = $1 · vigencia de 1 año

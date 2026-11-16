@@ -101,7 +101,7 @@ public class TarjetaController implements Controlador {
         Collections.reverse(movimientos);
         tablaMovimientos.getItems().setAll(movimientos);
 
-        String texto = "Puntos disponibles: " + Math.round(fachada.getCliente().getMontoPuntos().getTotalPuntosVigentes());
+        String texto = "Puntos disponibles: " + fachada.getPuntosDisponibles();
         for (com.example.cinemauq.model.SolicitudRecarga solicitud : fachada.getSolicitudes()) {
             texto += " · " + Formato.moneda(solicitud.getMonto()) + ": " + solicitud.getEstado();
         }
@@ -127,6 +127,43 @@ public class TarjetaController implements Controlador {
             refrescar();
             Alertas.informacion("Solicitud enviada", "El administrador podrá aprobarla desde Clientes y recargas.");
         } catch (RuntimeException error) { Alertas.error(error); }
+    }
+
+    /** Detalle de puntos: cada acumulación con su vencimiento y las redenciones (consulta de puntos). */
+    @FXML
+    private void verPuntos() {
+        java.time.format.DateTimeFormatter dia = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        com.example.cinemauq.model.MontoPuntos cuenta = fachada.getCliente().getMontoPuntos();
+        StringBuilder texto = new StringBuilder("Disponibles para redimir: " + fachada.getPuntosDisponibles()
+                + "\nGanas el 10 % de cada compra · 1 punto = $1 · vencen al año\n\nACUMULACIONES\n");
+        java.util.List<com.example.cinemauq.model.LotePuntos> lotes = cuenta.getLotes();
+        if (lotes.isEmpty()) texto.append("Todavía no has acumulado puntos.\n");
+        for (com.example.cinemauq.model.LotePuntos lote : lotes) {
+            String estado = lote.isAnulado() ? "anulado (compra cancelada)"
+                    : lote.estaVencido() ? "vencido"
+                    : "vence el " + lote.getFechaVencimiento().format(dia);
+            texto.append(lote.getFechaObtencion().format(dia)).append(" · ").append(lote.getFactura())
+                    .append(" · ganados ").append(Math.round(lote.getCantidad()))
+                    .append(" · quedan ").append(Math.round(lote.getDisponible()))
+                    .append(" · ").append(estado).append("\n");
+        }
+        texto.append("\nREDENCIONES\n");
+        java.util.List<com.example.cinemauq.model.RedencionPuntos> redenciones = cuenta.getRedenciones();
+        if (redenciones.isEmpty()) texto.append("Todavía no has redimido puntos.\n");
+        for (com.example.cinemauq.model.RedencionPuntos redencion : redenciones) {
+            texto.append(redencion.getFecha().format(dia)).append(" · ").append(redencion.getFactura())
+                    .append(" · ").append(redencion.getPuntos()).append(" puntos")
+                    .append(redencion.isDevuelta() ? " (devueltos por cancelación)" : "").append("\n");
+        }
+        javafx.scene.control.TextArea detalle = new javafx.scene.control.TextArea(texto.toString());
+        detalle.setEditable(false);
+        detalle.setPrefSize(560, 320);
+        javafx.scene.control.Alert dialogo = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        dialogo.setTitle("Mis puntos");
+        dialogo.setHeaderText("Mis puntos");
+        dialogo.getDialogPane().setContent(detalle);
+        Alertas.prepararDialogo(dialogo);
+        dialogo.showAndWait();
     }
 
     @FXML

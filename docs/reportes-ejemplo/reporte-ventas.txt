@@ -1,0 +1,80 @@
+CINEMAUQ
+VENTAS REALIZADAS POR PERIODO
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 65
+
+Fecha            | Factura    | Cliente                 | Película                  | Entradas | Estado     | Pagado   | Puntos usados
+--------------------------------------------------------------------------------------------------------------------------------------
+17/10/2026 18:30 | FAC-000012 | Valentina Ospina        | Spider-man: Brand New Day | 2        | Confirmada | $72.500  | 0
+18/10/2026 17:00 | FAC-000013 | Valentina Ospina        | Avengers Doomsday         | 2        | Confirmada | $72.500  | 0
+19/10/2026 18:00 | FAC-000014 | Laura Gómez             | Avengers Doomsday         | 4        | Confirmada | $72.000  | 0
+19/10/2026 18:00 | FAC-000015 | Daniela Pérez           | Avengers Doomsday         | 1        | Confirmada | $33.000  | 0
+20/10/2026 10:00 | FAC-000016 | Laura Gómez             | Echoes                    | 3        | Confirmada | $66.000  | 0
+20/10/2026 16:00 | FAC-000017 | Camilo Herrera          | Avengers Doomsday         | 1        | Confirmada | $42.100  | 0
+20/10/2026 17:00 | FAC-000018 | Mateo Ríos              | Avengers Doomsday         | 3        | Confirmada | $83.500  | 0
+20/10/2026 21:30 | FAC-000019 | Cliente de demostración | Beyond Horizons           | 1        | Confirmada | $54.500  | 0
+21/10/2026 12:00 | FAC-000020 | Daniela Pérez           | Echoes                    | 4        | Confirmada | $99.000  | 0
+21/10/2026 12:00 | FAC-000021 | Camilo Herrera          | Echoes                    | 4        | Confirmada | $88.000  | 0
+21/10/2026 18:30 | FAC-000022 | Gloria Marín            | Beyond Horizons           | 4        | Confirmada | $120.000 | 0
+21/10/2026 18:30 | FAC-000023 | Mateo Ríos              | Beyond Horizons           | 1        | Confirmada | $29.000  | 0
+22/10/2026 13:00 | FAC-000024 | Valentina Ospina        | Echoes                    | 4        | Confirmada | $88.000  | 0
+22/10/2026 17:30 | FAC-000025 | Valentina Ospina        | Future We Build           | 3        | Confirmada | $36.000  | 18000
+23/10/2026 12:00 | FAC-000026 | Valentina Ospina        | Echoes                    | 3        | Confirmada | $83.100  | 0
+24/10/2026 18:00 | FAC-000027 | Valentina Ospina        | Titanic                   | 3        | Confirmada | $73.000  | 0
+24/10/2026 18:30 | FAC-000028 | Camilo Herrera          | Future We Build           | 1        | Confirmada | $34.000  | 0
+25/10/2026 17:30 | FAC-000029 | Cliente de demostración | Future We Build           | 1        | Confirmada | $42.100  | 0
+25/10/2026 20:00 | FAC-000030 | Mateo Ríos              | Titanic                   | 2        | Confirmada | $47.000  | 0
+26/10/2026 18:30 | FAC-000031 | Mateo Ríos              | Future We Build           | 1        | Confirmada | $25.000  | 0
+26/10/2026 19:00 | FAC-000032 | Laura Gómez             | Titanic                   | 2        | Confirmada | $61.500  | 0
+27/10/2026 16:30 | FAC-000033 | Daniela Pérez           | Spider-man: Brand New Day | 2        | Confirmada | $75.100  | 0
+27/10/2026 18:30 | FAC-000034 | Camilo Herrera          | Spider-man: Brand New Day | 4        | Confirmada | $152.500 | 0
+28/10/2026 12:00 | FAC-000035 | Daniela Pérez           | Avengers Doomsday         | 3        | Confirmada | $66.000  | 0
+29/10/2026 19:30 | FAC-000036 | Laura Gómez             | Spider-man: Brand New Day | 3        | Confirmada | $65.000  | 29000
+29/10/2026 19:30 | FAC-000037 | Mateo Ríos              | Spider-man: Brand New Day | 3        | Confirmada | $112.500 | 0
+30/10/2026 13:00 | FAC-000038 | Laura Gómez             | Avengers Doomsday         | 1        | Confirmada | $41.000  | 0
+30/10/2026 16:30 | FAC-000039 | Camilo Herrera          | Spider-man: Brand New Day | 4        | Confirmada | $152.500 | 0
+31/10/2026 14:30 | FAC-000040 | Camilo Herrera          | Beyond Horizons           | 1        | Confirmada | $60.600  | 0
+31/10/2026 15:30 | FAC-000041 | Sara Cardona            | Beyond Horizons           | 3        | Confirmada | $54.000  | 0
+01/11/2026 12:00 | FAC-000042 | Daniela Pérez           | Avengers Doomsday         | 4        | Confirmada | $88.000  | 0
+01/11/2026 16:00 | FAC-000043 | Valentina Ospina        | Echoes                    | 4        | Confirmada | $84.000  | 0
+01/11/2026 20:00 | FAC-000044 | Camilo Herrera          | Echoes                    | 3        | Confirmada | $105.000 | 0
+02/11/2026 14:30 | FAC-000045 | Daniela Pérez           | Beyond Horizons           | 3        | Confirmada | $69.000  | 0
+03/11/2026 13:30 | FAC-000046 | Gloria Marín            | Beyond Horizons           | 2        | Confirmada | $50.000  | 0
+04/11/2026 19:30 | FAC-000047 | Gloria Marín            | Future We Build           | 4        | Confirmada | $127.000 | 0
+05/11/2026 12:00 | FAC-000048 | Valentina Ospina        | Titanic                   | 1        | Confirmada | $22.000  | 0
+05/11/2026 17:00 | FAC-000049 | Daniela Pérez           | Echoes                    | 2        | Confirmada | $36.000  | 0
+06/11/2026 17:30 | FAC-000050 | Cliente de demostración | Future We Build           | 4        | Confirmada | $116.000 | 0
+07/11/2026 13:30 | FAC-000051 | Sara Cardona            | Spider-man: Brand New Day | 4        | Confirmada | $84.000  | 0
+07/11/2026 13:30 | FAC-000052 | Daniela Pérez           | Spider-man: Brand New Day | 4        | Confirmada | $72.000  | 0
+07/11/2026 15:00 | FAC-000053 | Daniela Pérez           | Titanic                   | 3        | Confirmada | $66.000  | 0
+07/11/2026 16:30 | FAC-000054 | Valentina Ospina        | Future We Build           | 3        | Confirmada | $69.000  | 29000
+07/11/2026 20:30 | FAC-000055 | Gloria Marín            | Future We Build           | 1        | Confirmada | $71.600  | 0
+08/11/2026 14:00 | FAC-000056 | Cliente de demostración | Titanic                   | 2        | Confirmada | $44.000  | 0
+08/11/2026 15:30 | FAC-000057 | Camilo Herrera          | Spider-man: Brand New Day | 4        | Confirmada | $97.500  | 0
+09/11/2026 11:00 | FAC-000058 | Laura Gómez             | Titanic                   | 4        | Confirmada | $88.000  | 0
+10/11/2026 16:30 | FAC-000059 | Laura Gómez             | Spider-man: Brand New Day | 3        | Confirmada | $90.500  | 0
+11/11/2026 14:30 | FAC-000060 | Sara Cardona            | Spider-man: Brand New Day | 2        | Confirmada | $40.000  | 0
+11/11/2026 20:00 | FAC-000061 | Gloria Marín            | Avengers Doomsday         | 4        | Confirmada | $77.000  | 18000
+13/11/2026 17:00 | FAC-000062 | Mateo Ríos              | Avengers Doomsday         | 4        | Confirmada | $109.500 | 0
+13/11/2026 18:00 | FAC-000063 | Cliente de demostración | Avengers Doomsday         | 1        | Confirmada | $18.000  | 0
+13/11/2026 19:00 | FAC-000064 | Cliente de demostración | Avengers Doomsday         | 3        | Confirmada | $61.000  | 0
+14/11/2026 16:07 | FAC-000065 | Laura Gómez             | Future We Build           | 1        | Cancelada  | $39.100  | 0
+14/11/2026 16:09 | FAC-000066 | Laura Gómez             | Beyond Horizons           | 3        | Cancelada  | $54.000  | 0
+14/11/2026 16:24 | FAC-000067 | Cliente de demostración | Echoes                    | 1        | Confirmada | $22.000  | 0
+14/11/2026 16:24 | FAC-000068 | Mateo Ríos              | Titanic                   | 1        | Cancelada  | $29.000  | 0
+15/11/2026 00:40 | FAC-000069 | Daniela Pérez           | Echoes                    | 3        | Confirmada | $78.100  | 0
+15/11/2026 00:43 | FAC-000070 | Camilo Herrera          | Future We Build           | 1        | Cancelada  | $39.100  | 0
+15/11/2026 01:00 | FAC-000071 | Cliente de demostración | Beyond Horizons           | 2        | Confirmada | $48.000  | 0
+15/11/2026 01:01 | FAC-000072 | Cliente de demostración | Titanic                   | 1        | Confirmada | $46.100  | 0
+15/11/2026 09:53 | FAC-000073 | Daniela Pérez           | Titanic                   | 2        | Confirmada | $47.000  | 0
+15/11/2026 09:59 | FAC-000074 | Gloria Marín            | Beyond Horizons           | 3        | Confirmada | $61.500  | 18000
+15/11/2026 10:12 | FAC-000075 | Laura Gómez             | Future We Build           | 1        | Cancelada  | $51.500  | 0
+15/11/2026 10:18 | FAC-000076 | Camilo Herrera          | Echoes                    | 1        | Confirmada | $18.000  | 0
+
+TOTALES
+Compras: 65
+Ventas brutas: $4.319.500
+Reembolsado de esas compras: $206.900
+Ventas menos reembolsos: $4.112.600
+Pagado con puntos: 112000 puntos

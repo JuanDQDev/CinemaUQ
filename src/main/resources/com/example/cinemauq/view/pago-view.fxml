@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -34,6 +35,26 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="lblEstado"/>
             </HBox>
+            <Separator/>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Pagar con puntos" styleClass="titulo-seccion"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblPuntos"/>
+            </HBox>
+            <Label text="1 punto = $1. Se redimen entradas, productos o combos completos." wrapText="true"
+                   styleClass="texto-secundario" minHeight="-Infinity"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Entradas con puntos"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Spinner fx:id="spEntradasPuntos" prefWidth="90"/>
+            </HBox>
+            <VBox fx:id="panelProductosPuntos" spacing="6"/>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Puntos que se usarán"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblPuntosUsados" styleClass="titulo-seccion"/>
+            </HBox>
+            <Separator/>
             <HBox alignment="CENTER_LEFT">
                 <Label text="Total a pagar"/>
                 <Region HBox.hgrow="ALWAYS"/>

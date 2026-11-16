@@ -1,0 +1,19 @@
+CINEMAUQ
+CANCELACIONES Y REEMBOLSOS
+Fecha de generación: 15/11/2026 22:24
+Periodo consultado: 16/10/2026 a 22/11/2026
+Registros encontrados: 5
+
+Fecha cancelación | Factura    | Cliente        | Película        | Motivo                                | Pagado  | Reembolso | % devuelto
+--------------------------------------------------------------------------------------------------------------------------------------------
+15/11/2026 22:24  | FAC-000065 | Laura Gómez    | Future We Build | Funcion cancelada por el cine         | $39.100 | $39.100   | 100,0 %
+15/11/2026 21:44  | FAC-000066 | Laura Gómez    | Beyond Horizons | Cancelación solicitada por el cliente | $54.000 | $54.000   | 100,0 %
+15/11/2026 22:04  | FAC-000068 | Mateo Ríos     | Titanic         | Cancelación solicitada por el cliente | $29.000 | $23.200   | 80,0 %
+15/11/2026 22:24  | FAC-000070 | Camilo Herrera | Future We Build | Funcion cancelada por el cine         | $39.100 | $39.100   | 100,0 %
+15/11/2026 22:24  | FAC-000075 | Laura Gómez    | Future We Build | Funcion cancelada por el cine         | $51.500 | $51.500   | 100,0 %
+
+TOTALES
+Cancelaciones: 5
+Valor pagado: $212.700
+Total reembolsado: $206.900
+Retenido por el cine: $5.800

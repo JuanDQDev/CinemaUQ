@@ -19,12 +19,13 @@ public class Promocion {
     public void actualizar(String nombre, int porcentaje, LocalDate desde, LocalDate hasta, boolean activa) {
         if(nombre == null || nombre.isBlank() || porcentaje < 1 || porcentaje > 100
                 || desde == null || hasta == null || hasta.isBefore(desde)) {
-            this.nombre = nombre.trim();
-            this.porcentaje = porcentaje;
-            this.desde = desde;
-            this.hasta = hasta;
-            this.activa = activa;
+            throw new IllegalArgumentException("Revisa el nombre, el porcentaje (1 a 100) y las fechas de la promoción");
         }
+        this.nombre = nombre.trim();
+        this.porcentaje = porcentaje;
+        this.desde = desde;
+        this.hasta = hasta;
+        this.activa = activa;
     }
 
     public boolean vigente(LocalDate fecha) { return activa && !fecha.isBefore(desde) && !fecha.isAfter(hasta); }

@@ -3,6 +3,7 @@ package com.example.cinemauq.service;
 import com.example.cinemauq.exception.AsientoOcupadoException;
 import com.example.cinemauq.exception.CompraInvalidaException;
 import com.example.cinemauq.exception.EdadNoPermitidaException;
+import com.example.cinemauq.exception.PuntosInsuficientesException;
 import com.example.cinemauq.model.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -84,8 +85,56 @@ public class ServicioCompra {
         return (int) total;
     }
 
+    /**
+     * Valor que se paga con puntos (1 punto = $1). Se redimen artículos completos:
+     * entradas, productos o combos del mismo carrito, con la promoción vigente aplicada.
+     */
+    public int calcularValorPuntos(Funcion funcion, int entradasConPuntos, List<ElementoProducto> productosConPuntos) {
+        if (funcion == null || entradasConPuntos < 0 || productosConPuntos == null) {
+            throw new CompraInvalidaException("Selección de puntos inválida");
+        }
+        long valor = Math.round(crearEntrada(funcion).calcularPrecioEntrada()) * entradasConPuntos;
+        for (ElementoProducto producto : productosConPuntos) {
+            if (producto == null) throw new CompraInvalidaException("Producto inválido");
+            valor += Math.round(producto.calcularPrecio());
+        }
+        Promocion promocion = promocionActual();
+        if (promocion != null) valor = Math.round(valor * (1 - promocion.getPorcentaje() / 100.0));
+        return (int) valor;
+    }
+
+    /** Comprueba que lo que se quiere pagar con puntos esté realmente en el carrito. */
+    private void validarSeleccionPuntos(List<String> asientos, List<ElementoProducto> productos,
+                                        int entradasConPuntos, List<ElementoProducto> productosConPuntos) {
+        if (entradasConPuntos < 0 || entradasConPuntos > asientos.size()) {
+            throw new CompraInvalidaException("No puedes redimir más entradas de las que compras");
+        }
+        List<ElementoProducto> restantes = new ArrayList<>(productos);
+        for (ElementoProducto producto : productosConPuntos) {
+            if (!restantes.remove(producto)) {
+                throw new CompraInvalidaException("Solo puedes redimir productos de tu carrito");
+            }
+        }
+    }
+
     public Compra comprar(Cliente cliente, Funcion funcion, List<String> asientos,
                           List<ElementoProducto> productos, MedioPago medioPago) {
+        return comprar(cliente, funcion, asientos, productos, medioPago, 0, new ArrayList<>(), LocalDateTime.now());
+    }
+
+    /**
+     * Compra con redención de puntos.
+     *
+     * @param entradasConPuntos  cuántas de las entradas se pagan con puntos
+     * @param productosConPuntos productos o combos del carrito que se pagan con puntos
+     * @param ahora              momento de la compra (los datos de demostración registran historial)
+     */
+    public Compra comprar(Cliente cliente, Funcion funcion, List<String> asientos,
+                          List<ElementoProducto> productos, MedioPago medioPago,
+                          int entradasConPuntos, List<ElementoProducto> productosConPuntos, LocalDateTime ahora) {
+        if (ahora == null || productosConPuntos == null) {
+            throw new CompraInvalidaException("Faltan datos de la compra");
+        }
         if (cliente == null || funcion == null || medioPago == null) {
             throw new CompraInvalidaException("Cliente, función y pago son obligatorios");
         }
@@ -99,7 +148,7 @@ public class ServicioCompra {
         }
 
         // Regla 2: no vender entradas para funciones pasadas.
-        if (!funcion.getFechaHoraFuncion().isAfter(LocalDateTime.now())) {
+        if (!funcion.getFechaHoraFuncion().isAfter(ahora)) {
             throw new CompraInvalidaException("Esta función ya comenzó");
         }
 
@@ -117,7 +166,16 @@ public class ServicioCompra {
         if (productos != null) {
             extras.addAll(productos);
         }
-        int total = calcularTotal(funcion, seleccionados, extras);
+        int valorCarrito = calcularTotal(funcion, seleccionados, extras);
+        // Puntos: se valida la selección y el saldo de puntos antes de cobrar (1 punto = $1).
+        validarSeleccionPuntos(seleccionados, extras, entradasConPuntos, productosConPuntos);
+        int puntos = Math.min(valorCarrito, calcularValorPuntos(funcion, entradasConPuntos, productosConPuntos));
+        if (puntos > cliente.getMontoPuntos().getPuntosRedimibles(ahora)) {
+            throw new PuntosInsuficientesException("Puntos insuficientes. Disponibles: "
+                    + cliente.getMontoPuntos().getPuntosRedimibles(ahora) + ", necesarios: " + puntos);
+        }
+        // El total es lo que se paga con la tarjeta.
+        int total = valorCarrito - puntos;
 
         // Regla 3: verificar todos los asientos antes de cobrar.
         Sala sala = funcion.getSalaFuncion();
@@ -137,7 +195,7 @@ public class ServicioCompra {
         medioPago.verificar(total);
         String factura = ConsecutivoFactura.getInstance().generarConsecutivo();
         // Preparar el historial antes del cobro, por si un artículo es inválido.
-        Compra compra = new Compra(factura, cliente, funcion, seleccionados, extras, total);
+        Compra compra = new Compra(factura, cliente, funcion, seleccionados, extras, total, puntos, ahora);
         medioPago.cobrar(total, factura);
 
         // Regla 5: marcar asientos ocupados solamente cuando el pago fue aprobado.
@@ -155,8 +213,10 @@ public class ServicioCompra {
             medioPago.devolver(total, factura);
             throw error;
         }
-        //Acumular puntos
-        cliente.getMontoPuntos().acumularPuntos(total, factura);
+        // Redimir los puntos usados: primero los más próximos a vencer.
+        if (puntos > 0) cliente.getMontoPuntos().redimir(puntos, factura, ahora);
+        // Acumular puntos: 10 % de lo pagado con la tarjeta.
+        cliente.getMontoPuntos().acumularPuntos(total, factura, ahora);
         return compra;
     }
 
@@ -202,10 +262,12 @@ public class ServicioCompra {
         for (String codigo : compra.getAsientos()) {
             asientos.add(compra.getFuncion().getSalaFuncion().buscarAsiento(codigo));
         }
-        if (monto > 0) compra.getCliente().getTarjeta().reembolsar(monto, compra.getFactura());
+        if (monto > 0) compra.getCliente().getTarjeta().reembolsar(monto, compra.getFactura(), hora);
         for (Asiento asiento : asientos) asiento.liberar();
         compra.registrarCancelacion(monto, hora, porCine);
+        // Puntos: se anulan los que generó la compra y vuelven los que se usaron en ella.
         compra.getCliente().getMontoPuntos().anularPorCompra(compra.getFactura());
+        compra.getCliente().getMontoPuntos().devolverPorCompra(compra.getFactura());
         return monto;
     }
 }

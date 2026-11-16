@@ -3,6 +3,7 @@ package com.example.cinemauq.model;
 import com.example.cinemauq.exception.SaldoInsuficienteException;
 import com.example.cinemauq.exception.TarjetaInactivaException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class TarjetaVirtual {
     }
 
     public void descontar(int monto, String descripcion){
+        descontar(monto, descripcion, LocalDateTime.now());
+    }
+
+    /** Las versiones con fecha las usan los datos de demostración para registrar historial. */
+    public void descontar(int monto, String descripcion, LocalDateTime fecha){
         verificarPago(monto);
         if (descripcion == null || descripcion.isBlank()) {
             throw new IllegalArgumentException("Se requiere la referencia de la compra");
@@ -50,10 +56,14 @@ public class TarjetaVirtual {
                 throw new IllegalArgumentException("La referencia de pago ya fue utilizada");
             }
         }
-        registrarMovimiento(TipoMovimiento.COMPRA, -monto, descripcion);
+        registrarMovimiento(TipoMovimiento.COMPRA, -monto, descripcion, fecha);
     }
 
     public void recargar(Administrador administrador, int monto){
+        recargar(administrador, monto, LocalDateTime.now());
+    }
+
+    public void recargar(Administrador administrador, int monto, LocalDateTime fecha){
         if(administrador == null){
             throw new IllegalArgumentException("Administrador requerido.");
         }
@@ -63,14 +73,18 @@ public class TarjetaVirtual {
             throw new IllegalArgumentException("La recarga supera el saldo maximo");
         }
         registrarMovimiento(TipoMovimiento.RECARGA, monto,
-                "Recarga autorizada por: " + administrador.getNombre());
+                "Recarga autorizada por: " + administrador.getNombre(), fecha);
     }
 
     public void otorgarBonoBienvenida() {
+        otorgarBonoBienvenida(LocalDateTime.now());
+    }
+
+    public void otorgarBonoBienvenida(LocalDateTime fecha) {
         if (saldo != 0 || !movimientos.isEmpty()) {
             throw new IllegalStateException("El bono inicial ya fue asignado");
         }
-        registrarMovimiento(TipoMovimiento.BONO_BIENVENIDA, 50000, "Bono de bienvenida");
+        registrarMovimiento(TipoMovimiento.BONO_BIENVENIDA, 50000, "Bono de bienvenida", fecha);
     }
 
     public void validarReembolso(int monto, String referenciaCompra) {
@@ -114,8 +128,12 @@ public class TarjetaVirtual {
     }
 
     public void reembolsar(int monto, String referenciaCompra) {
+        reembolsar(monto, referenciaCompra, LocalDateTime.now());
+    }
+
+    public void reembolsar(int monto, String referenciaCompra, LocalDateTime fecha) {
         validarReembolso(monto, referenciaCompra);
-        registrarMovimiento(TipoMovimiento.REEMBOLSO, monto, referenciaCompra);
+        registrarMovimiento(TipoMovimiento.REEMBOLSO, monto, referenciaCompra, fecha);
     }
 
     public void agregarObservador(ObservadorSaldo observador) {
@@ -128,9 +146,9 @@ public class TarjetaVirtual {
         observadores.remove(observador);
     }
 
-    private void registrarMovimiento(TipoMovimiento tipo, int monto, String descripcion) {
+    private void registrarMovimiento(TipoMovimiento tipo, int monto, String descripcion, LocalDateTime fecha) {
         saldo += monto;
-        movimientos.add(new MovimientoTarjeta(tipo, monto, saldo, descripcion));
+        movimientos.add(new MovimientoTarjeta(tipo, monto, saldo, descripcion, fecha));
         if (monto != 0) notificarSaldo();
     }
 
